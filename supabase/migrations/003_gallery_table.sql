@@ -4,7 +4,7 @@
 -- ================================================
 
 CREATE TABLE IF NOT EXISTS gallery (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT,
   image_path TEXT NOT NULL,
@@ -26,11 +26,13 @@ CREATE INDEX IF NOT EXISTS idx_gallery_date ON gallery(date DESC NULLS LAST);
 ALTER TABLE gallery ENABLE ROW LEVEL SECURITY;
 
 -- Public can view published gallery items
+DROP POLICY IF EXISTS "Published gallery items are viewable by everyone" ON gallery;
 CREATE POLICY "Published gallery items are viewable by everyone"
   ON gallery FOR SELECT
   USING (is_published = true);
 
 -- Admins can do everything
+DROP POLICY IF EXISTS "Admins can manage gallery" ON gallery;
 CREATE POLICY "Admins can manage gallery"
   ON gallery FOR ALL
   USING (is_admin());
@@ -38,6 +40,7 @@ CREATE POLICY "Admins can manage gallery"
 -- ================================================
 -- TRIGGER FOR AUTO-UPDATE TIMESTAMP
 -- ================================================
+DROP TRIGGER IF EXISTS update_gallery_updated_at ON gallery;
 CREATE TRIGGER update_gallery_updated_at
   BEFORE UPDATE ON gallery
   FOR EACH ROW

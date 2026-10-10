@@ -64,6 +64,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-ash/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <Link href="/admin/login" className="terminal-nav-cta">ADMIN LOGIN</Link>
           <p className="text-sm text-steel">
             © {currentYear} Yash Ryan Reliant. All rights reserved.
           </p>

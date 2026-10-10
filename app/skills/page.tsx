@@ -1,5 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, SectionHeading, SkillBadge, EmptyState } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
+import { SkillBadge } from '@/components/SkillBadge';
+import { EmptyState } from '@/components/EmptyState';
 import type { Metadata } from 'next';
 import type { Database } from '@/lib/database.types';
 
@@ -62,6 +66,7 @@ export default async function SkillsPage() {
                         name={skill.name}
                         category={skill.category}
                         proficiency={skill.proficiency}
+                        logoPath={skill.logo_path}
                       />
                     ))}
                   </div>

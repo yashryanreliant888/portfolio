@@ -4,12 +4,18 @@ import { Calendar, Image as ImageIcon } from 'lucide-react'
 
 type Gallery = Database['public']['Tables']['gallery']['Row']
 
+function getGalleryDescription(value: unknown) {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object' && 'description' in value && typeof value.description === 'string') return value.description
+  return ''
+}
+
 async function getGalleryItems() {
   const { data, error } = await supabase
     .from('gallery')
     .select('*')
     .eq('is_published', true)
-    .order('sort_order', { ascending: true })
+    .order('display_order', { ascending: true })
 
   if (error) {
     console.error('Error fetching gallery:', error)
@@ -64,9 +70,9 @@ export default async function GalleryPage() {
                     {item.title}
                   </h3>
                   
-                  {item.description && (
+                  {getGalleryDescription(item.description) && (
                     <p className="text-gray-600 text-sm mb-3 line-clamp-3">
-                      {item.description}
+                      {getGalleryDescription(item.description)}
                     </p>
                   )}
 

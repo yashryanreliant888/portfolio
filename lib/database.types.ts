@@ -21,6 +21,12 @@ export interface Database {
           resume_file_path: string | null
           linkedin_url: string | null
           instagram_url: string | null
+          facebook_url: string | null
+          youtube_url: string | null
+          x_url: string | null
+          tiktok_url: string | null
+          github_url: string | null
+          threads_url: string | null
           website_url: string | null
           updated_at: string | null
         }
@@ -35,6 +41,12 @@ export interface Database {
           resume_file_path?: string | null
           linkedin_url?: string | null
           instagram_url?: string | null
+          facebook_url?: string | null
+          youtube_url?: string | null
+          x_url?: string | null
+          tiktok_url?: string | null
+          github_url?: string | null
+          threads_url?: string | null
           website_url?: string | null
           updated_at?: string | null
         }
@@ -49,6 +61,12 @@ export interface Database {
           resume_file_path?: string | null
           linkedin_url?: string | null
           instagram_url?: string | null
+          facebook_url?: string | null
+          youtube_url?: string | null
+          x_url?: string | null
+          tiktok_url?: string | null
+          github_url?: string | null
+          threads_url?: string | null
           website_url?: string | null
           updated_at?: string | null
         }
@@ -61,6 +79,7 @@ export interface Database {
           description: string | null
           proficiency: string | null
           icon: string | null
+          logo_path: string | null
           external_url: string | null
           sort_order: number
           is_active: boolean
@@ -74,6 +93,7 @@ export interface Database {
           description?: string | null
           proficiency?: string | null
           icon?: string | null
+          logo_path?: string | null
           external_url?: string | null
           sort_order?: number
           is_active?: boolean
@@ -87,6 +107,7 @@ export interface Database {
           description?: string | null
           proficiency?: string | null
           icon?: string | null
+          logo_path?: string | null
           external_url?: string | null
           sort_order?: number
           is_active?: boolean
@@ -398,7 +419,7 @@ export interface Database {
           description: string | null
           image_path: string
           date: string | null
-          sort_order: number
+          display_order: number
           is_published: boolean
           created_at: string
           updated_at: string
@@ -409,7 +430,7 @@ export interface Database {
           description?: string | null
           image_path: string
           date?: string | null
-          sort_order?: number
+          display_order?: number
           is_published?: boolean
           created_at?: string
           updated_at?: string
@@ -420,7 +441,7 @@ export interface Database {
           description?: string | null
           image_path?: string
           date?: string | null
-          sort_order?: number
+          display_order?: number
           is_published?: boolean
           created_at?: string
           updated_at?: string

@@ -16,6 +16,33 @@ export async function saveAdminRecord(table: AdminTable, id: string | null, form
   const payload: Record<string, unknown> = {};
   for (const [key, value] of formData.entries()) {
     if (key === 'id' || key === 'table' || key === 'redirectTo') continue;
+    if (table === 'certifications' && key === 'certificate_upload' && value instanceof File && value.size > 0) {
+      const safeName = value.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+      const path = `certifications/${crypto.randomUUID()}-${safeName}`;
+      const { error: uploadError } = await supabase.storage.from('portfolio-certificates').upload(path, value, { contentType: value.type || undefined, upsert: false });
+      if (uploadError) throw new Error(`Certificate upload failed: ${uploadError.message}`);
+      const { data: publicUrl } = supabase.storage.from('portfolio-certificates').getPublicUrl(path);
+      payload.public_path = publicUrl.publicUrl;
+      payload.file_type = value.type || safeName.split('.').pop() || 'file';
+      continue;
+    }
+    if (table === 'skills' && key === 'skill_logo_upload' && value instanceof File && value.size > 0) {
+      if (!['image/png', 'image/jpeg'].includes(value.type)) {
+        throw new Error('Skill logos must be PNG or JPEG files.');
+      }
+      if (value.size > 5 * 1024 * 1024) {
+        throw new Error('Skill logos must be 5 MB or smaller.');
+      }
+      const safeName = value.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+      const path = `skills/${crypto.randomUUID()}-${safeName}`;
+      const { error: uploadError } = await supabase.storage.from('portfolio-media').upload(path, value, { contentType: value.type || undefined, upsert: false });
+      if (uploadError) throw new Error(`Skill logo upload failed: ${uploadError.message}`);
+      const { data: publicUrl } = supabase.storage.from('portfolio-media').getPublicUrl(path);
+      payload.logo_path = publicUrl.publicUrl;
+      continue;
+    }
+    if (key === 'skill_logo_upload') continue;
+    if (key === 'certificate_upload') continue;
     if (key === 'is_active' || key === 'is_published' || key === 'is_featured') payload[key] = value === 'on' || value === 'true';
     else if (key === 'sort_order' || key === 'display_order') payload[key] = Number(value) || 0;
     else if (key === 'channels' || key === 'tools' || key === 'deliverables' || key === 'results' || key === 'gallery' || key === 'responsibilities' || key === 'skills_covered') {

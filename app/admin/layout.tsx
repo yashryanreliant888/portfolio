@@ -1,4 +1,4 @@
-import { requireAdmin } from '@/lib/auth';
+import { getAdminUser } from '@/lib/auth';
 import { AdminSidebar } from './AdminSidebar';
 import { AdminTopBar } from './AdminTopBar';
 
@@ -7,7 +7,8 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await requireAdmin();
+  const user = await getAdminUser();
+  if (!user) return children;
 
   return (
     <div className="min-h-screen bg-near-black">

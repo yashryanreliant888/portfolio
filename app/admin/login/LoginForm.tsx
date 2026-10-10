@@ -3,7 +3,8 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Button, LoadingSpinner } from '@/components';
+import { Button } from '@/components/Button';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export function LoginForm() {
   const router = useRouter();

@@ -57,8 +57,11 @@ enable_confirmations = false
 # Seed your database with initial data
 [db.seed]
 enabled = true
-# Files in supabase/seed.sql run first, then files in supabase/seeds/*.sql alphabetically
+# Files run in order: numbered files in seeds/ folder
 sql_paths = [
-  "./seed.sql",
-  "./seeds/certifications_seed.sql"
+  "./seeds/001_profile_and_skills.sql",
+  "./seeds/002_education_and_experience.sql",
+  "./seeds/003_certifications.sql",
+  "./seeds/004_projects.sql",
+  "./seeds/005_gallery.sql"
 ]

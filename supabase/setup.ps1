@@ -59,10 +59,16 @@ switch ($choice) {
     "3" {
         Write-Host ""
         Write-Host "🌱 Seeding remote database..." -ForegroundColor Yellow
-        Write-Host "Running seed.sql..." -ForegroundColor Gray
-        supabase db execute --file ./seed.sql --linked
-        Write-Host "Running certifications_seed.sql..." -ForegroundColor Gray
-        supabase db execute --file ./seeds/certifications_seed.sql --linked
+        Write-Host "Running 001_profile_and_skills.sql..." -ForegroundColor Gray
+        supabase db execute --file ./seeds/001_profile_and_skills.sql --linked
+        Write-Host "Running 002_education_and_experience.sql..." -ForegroundColor Gray
+        supabase db execute --file ./seeds/002_education_and_experience.sql --linked
+        Write-Host "Running 003_certifications.sql..." -ForegroundColor Gray
+        supabase db execute --file ./seeds/003_certifications.sql --linked
+        Write-Host "Running 004_projects.sql..." -ForegroundColor Gray
+        supabase db execute --file ./seeds/004_projects.sql --linked
+        Write-Host "Running 005_gallery.sql..." -ForegroundColor Gray
+        supabase db execute --file ./seeds/005_gallery.sql --linked
         Write-Host "✅ Seeding complete!" -ForegroundColor Green
     }
     "4" {

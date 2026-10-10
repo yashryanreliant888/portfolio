@@ -1,7 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, Button, ExperienceCard, CertificationCard } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { Button } from '@/components/Button';
+import { ExperienceCard } from '@/components/ExperienceCard';
+import { CertificationCard } from '@/components/CertificationCard';
+import { EntranceAnimation } from '@/components/EntranceAnimation';
 import Link from 'next/link';
 import Image from 'next/image';
+import mainPic from '@/main-pic.png';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -16,31 +22,32 @@ export default async function HomePage() {
   const headline = profile?.headline || 'Digital Marketing Specialist';
 
   return <PageLayout>
-    <section className="terminal-hero" aria-labelledby="hero-title">
+    <section className="terminal-hero terminal-hero--centered" aria-labelledby="hero-title">
       <div className="terminal-hero__wash" aria-hidden="true" />
-      <Container className="relative z-10 py-16 lg:py-20">
-        <div className="terminal-hero__grid">
-          <div className="terminal-hero__copy">
-            <p className="terminal-kicker">YASH RYAN RELIANT / DIGITAL MARKETING</p>
-            <h1 id="hero-title"><span>{name.split(' ')[0]} <em>builds</em></span><strong>momentum</strong><span className="hero-outline">for ambitious brands.</span></h1>
-            <p className="terminal-hero__intro">{headline}. Search, story, and signal — brought together into marketing that moves with intent.</p>
-            <div className="terminal-hero__actions"><Button as="link" href="/projects" variant="violet" size="lg">Inspect the work <span aria-hidden="true">↗</span></Button><Link href="/contact" className="terminal-text-link">Start a conversation <span aria-hidden="true">→</span></Link></div>
-            <div className="terminal-hero__meta"><span><i aria-hidden="true">+</i> Kerala, India</span><span>SEO · PAID · ANALYTICS</span></div>
+      <EntranceAnimation>
+        <Container className="relative z-10 py-12 lg:py-16">
+          <div className="hero-intro">
+            <p className="terminal-kicker au-enter au-soft">YASH RYAN RELIANT / DIGITAL MARKETING</p>
+            <h1 id="hero-title" className="au-headline"><span className="au-enter au-rise">Ideas that</span><em className="au-enter au-rise">move</em><strong className="au-enter au-rise">people.</strong></h1>
+            <p className="terminal-hero__intro au-enter au-soft">{headline}. Search, story, and signal brought together into marketing that moves with intent.</p>
+            <div className="terminal-hero__actions au-enter au-soft"><Button as="link" href="/projects" variant="violet" size="lg">Inspect the work <span aria-hidden="true" className="button-arrow">↗</span></Button><Link href="/contact" className="terminal-text-link">Start a conversation <span aria-hidden="true" className="text-arrow">→</span></Link></div>
           </div>
-          <div className="boarding-pass boarding-pass--hero" aria-label="Profile introduction">
-            <div className="boarding-pass__top"><span>BOARDING PASS / 001</span><span aria-hidden="true">✳</span></div>
-            <div className="boarding-pass__portrait"><Image src="/main-pic.png" alt={`${name} portrait`} fill priority sizes="(max-width: 900px) 90vw, 38vw" /></div>
-            <div className="boarding-pass__route"><div><small>ORIGIN</small><strong>INSIGHT</strong></div><span aria-hidden="true">→</span><div><small>DESTINATION</small><strong>IMPACT</strong></div></div>
-            <div className="boarding-pass__bottom"><span>READY FOR DEPARTURE</span><span className="boarding-pass__barcode" aria-hidden="true">▥▥▥▥</span></div>
+
+          <div className="hero-stage" aria-label="Portrait of Yash Ryan Reliant">
+          <div className="hero-stage__halo" aria-hidden="true" />
+          <div className="hero-stage__portrait"><Image src={mainPic} alt={`${name} portrait`} fill priority sizes="(max-width: 700px) 88vw, 470px" /></div>
+          <div className="hero-float hero-float--left"><span className="hero-float__label">FOCUS / 01</span><strong>Find the opening.</strong><span>Audience, insight, direction.</span></div>
+          <div className="hero-float hero-float--right"><span className="hero-float__label">CURRENTLY</span><strong>Building momentum.</strong><span>SEO · PAID · ANALYTICS</span></div>
+          <div className="hero-float hero-float--bottom"><span>KERALA, INDIA</span><span className="hero-float__rule" /><span>OPEN TO GOOD WORK</span></div>
           </div>
-        </div>
-      </Container>
-      <div className="terminal-coordinate" aria-hidden="true"><span>+ &nbsp; FIELD NOTES / PORTFOLIO 2026</span><span>09.9312° N &nbsp; 76.2673° E &nbsp; ♥</span></div>
+        </Container>
+      </EntranceAnimation>
+      <div className="terminal-coordinate" aria-hidden="true"><span>FIELD NOTES / PORTFOLIO 2026</span><span>09.9312° N &nbsp; 76.2673° E</span></div>
     </section>
 
     <section className="terminal-section terminal-comparison" aria-labelledby="comparison-title">
       <Container>
-        <div className="terminal-section__heading"><h2 id="comparison-title">How the signal moves <span aria-hidden="true">⌁</span></h2><p>Strategy is only useful when it lands in the real world.</p></div>
+        <div className="terminal-section__heading"><h2 id="comparison-title">How the signal moves</h2><p>Strategy is only useful when it lands in the real world.</p></div>
         <div className="comparison-rail">
           {['Find the opening', 'Build the system', 'Measure the lift'].map((title, index) => <article className={`comparison-ticket comparison-ticket--${index + 1}`} key={title}><span className="comparison-ticket__eyebrow">0{index + 1} / FIELD NOTE</span><h3>{title}</h3><p>{[skills?.[0]?.name || 'SEO foundations', skills?.[1]?.name || 'Campaign architecture', skills?.[2]?.name || 'Marketing analytics'][index]}</p><Link href="/projects">Explore <span aria-hidden="true">→</span></Link></article>)}
         </div>

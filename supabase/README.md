@@ -7,15 +7,19 @@ This directory contains the database schema, migrations, and seed data for the Y
 ```
 supabase/
 ├── migrations/
-│   ├── 001_initial_schema.sql       # Initial database schema
-│   └── 002_enhanced_certifications_schema.sql  # Enhanced certifications table
+│   ├── 001_initial_schema.sql              # Base tables (profiles, skills, experience, etc.)
+│   ├── 002_enhanced_certifications_schema.sql  # Enhanced certifications table
+│   └── 003_gallery_table.sql               # Gallery table
 ├── seeds/
-│   └── certifications_seed.sql      # Certification data from JSON
-├── seed.sql                          # General seed data (runs first)
-├── storage_setup.sql                 # Storage bucket configuration
-├── config.toml                       # Supabase CLI configuration
-├── setup.ps1                         # PowerShell setup script
-└── README.md                         # This file
+│   ├── 001_profile_and_skills.sql          # Profile + 14 skills
+│   ├── 002_education_and_experience.sql    # Education + experience
+│   ├── 003_certifications.sql              # 9 certifications
+│   ├── 004_projects.sql                    # 6 projects
+│   └── 005_gallery.sql                     # Gallery items
+├── storage_setup.sql                       # Storage bucket configuration
+├── config.toml                             # Supabase CLI configuration
+├── setup.ps1                               # Interactive PowerShell script
+└── README.md                               # This file
 ```
 
 ## Quick Start with CLI
@@ -187,3 +191,72 @@ certificates/
 - Arrays are stored as PostgreSQL array types for better querying
 - The schema supports both image and PDF certificates
 - Verification URLs are stored but not automatically validated
+
+
+## 🌱 What Gets Seeded?
+
+The seeding process populates **35 records** across **7 tables**:
+
+### 1. Profile & Skills (`001_profile_and_skills.sql`)
+- **1 profile**: Yash Ryan Reliant with bio, contact info, social links
+- **14 skills**: SEO, Google Analytics, Social Media Marketing, Content Marketing, Google Ads, Meta Ads, Email Marketing, SEMrush, Canva, Photoshop, Marketing Strategy, Copywriting, Excel, PowerPoint
+
+### 2. Education & Experience (`002_education_and_experience.sql`)
+- **2 education records**: BBA from TKM College, Higher Secondary Education
+- **2 experience records**: Digital Marketing Intern, Freelance Social Media Manager
+
+### 3. Certifications (`003_certifications.sql`)
+- **9 certifications** from `yash-ryan-certifications.json`
+- Complete metadata: skills covered, verification URLs, credential IDs, dates
+- File paths mapped: `/certificates/*.png`, `/certificates/*.pdf`
+
+### 4. Projects (`004_projects.sql`)
+- **6 projects** from `seed-data/projects.json`:
+  1. College Research Project - TKM
+  2. Content Calendar Strategy ⭐
+  3. Social Media Poster Designs ⭐ (8 posters)
+  4. Blue Tokai Brew School Campaign ⭐
+  5. Market Analysis of IPCS Kollam
+  6. Zepto Exam Mode Launch Campaign ⭐
+- Complete with objectives, deliverables, results, gallery images
+
+### 5. Gallery (`005_gallery.sql`)
+- **1 gallery item** with template for adding more
+
+**Total: 35 records across 7 tables!**
+
+## 📁 Folder to Database Mapping
+
+All file paths in the database reference these folders:
+
+```
+/certificates/   → certificates/ folder (9 files)
+/Projects/       → Projects/ folder (4 subfolders)
+/Gallery/        → Gallery/ folder (images)
+/main-pic.png    → root folder (profile image)
+```
+
+After seeding, upload these files to Supabase Storage to match the database paths.
+
+## ✅ Verification
+
+After running `npm run db:setup`, verify with this SQL query:
+
+```sql
+SELECT 'profiles' as table_name, COUNT(*) as count FROM profiles
+UNION ALL SELECT 'skills', COUNT(*) FROM skills
+UNION ALL SELECT 'education', COUNT(*) FROM education
+UNION ALL SELECT 'experience', COUNT(*) FROM experience
+UNION ALL SELECT 'certifications', COUNT(*) FROM certifications
+UNION ALL SELECT 'projects', COUNT(*) FROM projects
+UNION ALL SELECT 'gallery', COUNT(*) FROM gallery;
+```
+
+Expected results:
+- profiles: 1
+- skills: 14
+- education: 2
+- experience: 2
+- certifications: 9
+- projects: 6
+- gallery: 1

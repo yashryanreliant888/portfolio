@@ -1,5 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, SectionHeading, CertificationCard, EmptyState } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
+import { CertificationCard } from '@/components/CertificationCard';
+import { EmptyState } from '@/components/EmptyState';
 import type { Metadata } from 'next';
 import type { Database } from '@/lib/database.types';
 
@@ -13,11 +17,11 @@ export const metadata: Metadata = {
 export default async function CertificationsPage() {
   const supabase = await createClient();
 
-  const { data: certifications } = await supabase
+  const { data: certifications, error } = await supabase
     .from('certifications')
     .select('*')
     .eq('is_published', true)
-    .order('sort_order', { ascending: true });
+    .order('display_order', { ascending: true });
   const certificationList = certifications ?? [];
 
   // Group by category
@@ -63,8 +67,12 @@ export default async function CertificationsPage() {
                         issuer={cert.issuer}
                         category={cert.category}
                         issueDate={cert.issue_date}
+                        expiryDate={cert.expiry_date}
+                        credentialId={cert.credential_id}
                         credentialUrl={cert.verification_url}
                         certificateFilePath={cert.public_path}
+                        fileType={cert.file_type}
+                        skillsCovered={cert.skills_covered}
                       />
                     ))}
                   </div>

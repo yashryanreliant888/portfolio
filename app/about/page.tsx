@@ -1,5 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, SectionHeading, Button } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
+import { Button } from '@/components/Button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

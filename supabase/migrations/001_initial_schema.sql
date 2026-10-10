@@ -1,11 +1,10 @@
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- uuid-ossp not required; using gen_random_uuid() which is built into PostgreSQL 13+
 
 -- ================================================
 -- PROFILES TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS profiles (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   full_name TEXT NOT NULL,
   headline TEXT,
   email TEXT,
@@ -32,7 +31,7 @@ VALUES (
 -- SKILLS TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS skills (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   category TEXT NOT NULL,
   description TEXT,
@@ -52,7 +51,7 @@ CREATE INDEX IF NOT EXISTS idx_skills_category ON skills(category);
 -- EXPERIENCE TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS experience (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   organization TEXT NOT NULL,
   role TEXT NOT NULL,
   employment_type TEXT,
@@ -74,7 +73,7 @@ CREATE INDEX IF NOT EXISTS idx_experience_published ON experience(is_published);
 -- CERTIFICATIONS TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS certifications (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   issuer TEXT NOT NULL,
   category TEXT,
@@ -97,7 +96,7 @@ CREATE INDEX IF NOT EXISTS idx_certifications_published ON certifications(is_pub
 -- EDUCATION TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS education (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   qualification TEXT NOT NULL,
   institution TEXT NOT NULL,
   field_of_study TEXT,
@@ -118,7 +117,7 @@ CREATE INDEX IF NOT EXISTS idx_education_published ON education(is_published);
 -- PROJECTS TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS projects (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   category TEXT,
@@ -148,7 +147,7 @@ CREATE INDEX IF NOT EXISTS idx_projects_slug ON projects(slug);
 -- CONTACT SUBMISSIONS TABLE
 -- ================================================
 CREATE TABLE IF NOT EXISTS contact_submissions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   subject TEXT,

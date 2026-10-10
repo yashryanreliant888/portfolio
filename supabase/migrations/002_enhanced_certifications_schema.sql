@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS certifications CASCADE;
 
 CREATE TABLE certifications (
   -- Primary identifiers
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   cert_id TEXT UNIQUE NOT NULL, -- The custom ID from JSON (e.g., "guvi-claude-ai-productivity")
   
   -- Core information
@@ -65,11 +65,13 @@ CREATE INDEX idx_certifications_expiry_date ON certifications(expiry_date);
 ALTER TABLE certifications ENABLE ROW LEVEL SECURITY;
 
 -- Public can view published certifications
+DROP POLICY IF EXISTS "Published certifications are viewable by everyone" ON certifications;
 CREATE POLICY "Published certifications are viewable by everyone"
   ON certifications FOR SELECT
   USING (is_published = true);
 
 -- Admins can do everything with certifications
+DROP POLICY IF EXISTS "Admins can manage certifications" ON certifications;
 CREATE POLICY "Admins can manage certifications"
   ON certifications FOR ALL
   USING (is_admin());
@@ -77,6 +79,7 @@ CREATE POLICY "Admins can manage certifications"
 -- ================================================
 -- TRIGGER FOR AUTO-UPDATE TIMESTAMP
 -- ================================================
+DROP TRIGGER IF EXISTS update_certifications_updated_at ON certifications;
 CREATE TRIGGER update_certifications_updated_at
   BEFORE UPDATE ON certifications
   FOR EACH ROW

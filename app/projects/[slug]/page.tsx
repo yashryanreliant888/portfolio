@@ -1,5 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, SectionHeading, Button } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
+import { Button } from '@/components/Button';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -48,9 +51,18 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   const channels = (project.channels as string[]) || [];
   const tools = (project.tools as string[]) || [];
-  const deliverables = (project.deliverables as string[]) || [];
-  const results = (project.results as string[]) || [];
-  const gallery = (project.gallery as string[]) || [];
+  const deliverables: unknown[] = Array.isArray(project.deliverables) ? project.deliverables : [];
+  const results: unknown[] = Array.isArray(project.results) ? project.results : [];
+  const galleryEntries: unknown[] = Array.isArray(project.gallery) ? project.gallery : [];
+  const gallery = galleryEntries.flatMap((entry: unknown) => {
+        const path = typeof entry === 'string' ? entry : entry && typeof entry === 'object' && 'file_path' in entry && typeof entry.file_path === 'string' ? entry.file_path : null;
+        if (path && !path.startsWith('file://') && /^(https?:\/\/|\/)/i.test(path) && /\.(avif|gif|jpe?g|png|webp)(\?.*)?$/i.test(path)) return [path];
+        return [];
+      });
+  const coverPath = typeof project.cover_image_path === 'string' ? project.cover_image_path : null;
+  const coverIsUsable = Boolean(coverPath && !coverPath.startsWith('file://') && /^(https?:\/\/|\/)/i.test(coverPath));
+  const coverIsImage = Boolean(coverIsUsable && /\.(avif|gif|jpe?g|png|webp)(\?.*)?$/i.test(coverPath));
+  const coverIsDocument = Boolean(coverIsUsable && !coverIsImage);
 
   return (
     <PageLayout>
@@ -87,18 +99,10 @@ export default async function ProjectDetailPage({ params }: Props) {
       </section>
 
       {/* Cover Image */}
-      {project.cover_image_path && (
+      {coverPath && coverIsUsable && (
         <section className="py-8">
           <Container>
-            <div className="relative w-full aspect-[16/9] rounded-cards overflow-hidden bg-iron">
-              <Image
-                src={project.cover_image_path}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            {coverIsImage ? <div className="relative w-full aspect-[16/9] rounded-cards overflow-hidden bg-iron"><Image src={coverPath} alt={project.title} fill className="object-cover" priority /></div> : coverIsDocument ? <a href={coverPath} target="_blank" rel="noopener noreferrer" className="flex min-h-40 items-center justify-between gap-6 rounded-cards border border-ash/20 bg-iron p-8 text-almost-white transition-colors hover:border-lavender-mist"><span><span className="mb-2 block text-xs uppercase tracking-[0.14em] text-lavender-mist">Project document</span><span className="block text-lg">Open the project file</span></span><span className="text-sm text-steel">PDF ↗</span></a> : null}
           </Container>
         </section>
       )}
@@ -191,7 +195,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                           d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      <span className="text-graphite">{item}</span>
+                      <span className="text-graphite">{typeof item === 'string' ? item : item && typeof item === 'object' && 'title' in item && typeof item.title === 'string' ? item.title : 'Project deliverable'}</span>
                     </li>
                   ))}
                 </ul>
@@ -218,7 +222,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                           d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
                         />
                       </svg>
-                      <span className="text-graphite">{item}</span>
+                      <span className="text-graphite">{typeof item === 'string' ? item : item && typeof item === 'object' && 'metric' in item && typeof item.metric === 'string' ? `${item.metric}: ${'value' in item && typeof item.value === 'string' ? item.value : ''}` : 'Project result'}</span>
                     </li>
                   ))}
                 </ul>

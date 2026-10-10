@@ -145,7 +145,14 @@ async function seedCertifications() {
   let errors = 0;
 
   for (const cert of certificationsData) {
-    const { error } = await supabase.from('certifications').insert(cert);
+    // Ensure array fields are actual arrays (not null/undefined)
+    const row = {
+      ...cert,
+      skills_covered: cert.skills_covered ?? [],
+      issuer_partners_shown: cert.issuer_partners_shown ?? [],
+      issuing_organizations_shown: cert.issuing_organizations_shown ?? [],
+    };
+    const { error } = await supabase.from('certifications').insert(row);
     if (error) {
       console.error(`   ❌ ${cert.title}: ${error.message}`);
       errors++;

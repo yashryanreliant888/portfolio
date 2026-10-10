@@ -42,7 +42,7 @@ export function Header() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="lg:hidden text-almost-white"
+          className="lg:hidden text-almost-white au-enter au-wipe"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >

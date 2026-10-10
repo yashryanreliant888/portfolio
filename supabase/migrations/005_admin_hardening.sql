@@ -1,6 +1,10 @@
--- Admin hardening: role checks are explicit and storage access is restricted to admins.
--- Run after the existing migrations in Supabase SQL Editor.
+-- ================================================
+-- ADMIN HARDENING
+-- Tightens is_admin() function and admin_roles policies.
+-- All statements are idempotent (DROP IF EXISTS / CREATE OR REPLACE).
+-- ================================================
 
+-- Replace is_admin() with a hardened version
 CREATE OR REPLACE FUNCTION public.is_admin()
 RETURNS BOOLEAN
 LANGUAGE sql
@@ -17,6 +21,7 @@ $$;
 REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.is_admin() TO anon, authenticated;
 
+-- Recreate admin_roles policies safely
 DROP POLICY IF EXISTS "Admins can view admin roles" ON public.admin_roles;
 CREATE POLICY "Admins can view admin roles"
   ON public.admin_roles FOR SELECT
@@ -28,5 +33,5 @@ CREATE POLICY "Admins can manage admin roles"
   USING (public.is_admin())
   WITH CHECK (public.is_admin());
 
--- Prevent public visitors from writing arbitrary role records.
+-- Ensure RLS is enabled
 ALTER TABLE public.admin_roles ENABLE ROW LEVEL SECURITY;

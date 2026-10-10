@@ -1,5 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, SectionHeading, ProjectCard, EmptyState } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
+import { ProjectCard } from '@/components/ProjectCard';
+import { EmptyState } from '@/components/EmptyState';
+import { ThreeDCarousel } from '@/components/ThreeDCarousel';
+import type { ThreeDCarouselItem } from '@/components/ThreeDCarousel';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -19,6 +25,16 @@ export default async function ProjectsPage() {
 
   const featuredProjects = projects?.filter(p => p.is_featured) || [];
   const otherProjects = projects?.filter(p => !p.is_featured) || [];
+  const carouselItems: ThreeDCarouselItem[] = (projects || []).flatMap((project) => {
+    const gallery: unknown[] = Array.isArray(project.gallery) ? project.gallery : [];
+    const images = gallery.flatMap((entry) => {
+      const path = typeof entry === 'string' ? entry : entry && typeof entry === 'object' && 'file_path' in entry ? entry.file_path : null;
+      return typeof path === 'string' && !path.startsWith('file://') && /^(https?:\/\/|\/)/i.test(path) && /\.(avif|gif|jpe?g|png|webp)(\?.*)?$/i.test(path) ? [path] : [];
+    });
+    const cover = typeof project.cover_image_path === 'string' && /\.(avif|gif|jpe?g|png|webp)(\?.*)?$/i.test(project.cover_image_path) ? project.cover_image_path : null;
+    const paths = images.length ? images : cover ? [cover] : [null];
+    return paths.map((imagePath, index) => ({ id: `${project.id}-${index}`, title: project.title, category: project.category, slug: project.slug, imagePath, description: index === 0 ? project.summary : `Poster ${index + 1} from ${project.title}` }));
+  });
 
   return (
     <PageLayout>
@@ -32,6 +48,16 @@ export default async function ProjectsPage() {
           </p>
         </Container>
       </section>
+
+      {/* Featured Projects */}
+      {carouselItems.length > 0 && (
+        <section className="py-section border-t border-ash/20" aria-labelledby="poster-carousel-title">
+          <Container>
+            <div className="mb-8 flex items-end justify-between gap-6"><div><SectionHeading as="h2" variant="stamp">P O S T E R   R A I L</SectionHeading><p id="poster-carousel-title" className="mt-4 max-w-xl text-sm text-steel">A rotating view of the work. Every published project image in the database appears here automatically.</p></div></div>
+            <ThreeDCarousel items={carouselItems} />
+          </Container>
+        </section>
+      )}
 
       {/* Featured Projects */}
       {featuredProjects.length > 0 && (

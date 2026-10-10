@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { Button, LoadingSpinner } from '@/components';
+import { Button } from '@/components/Button';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export function ContactForm() {
   const [formData, setFormData] = useState({

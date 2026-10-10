@@ -1,4 +1,6 @@
-import { PageLayout, Container, SectionHeading } from '@/components';
+import { PageLayout } from '@/components/PageLayout';
+import { Container } from '@/components/Container';
+import { SectionHeading } from '@/components/SectionHeading';
 import { ContactForm } from './ContactForm';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';

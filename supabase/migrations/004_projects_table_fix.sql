@@ -1,4 +1,12 @@
--- Create projects table
+-- ================================================
+-- PROJECTS TABLE SAFE GUARDS
+-- This migration ensures the projects table, policies,
+-- and trigger exist. Everything is wrapped in IF NOT EXISTS
+-- / DROP IF EXISTS guards so it is safe to run even when
+-- 001_initial_schema.sql already created them.
+-- ================================================
+
+-- Table (already created by 001, but safe to repeat)
 CREATE TABLE IF NOT EXISTS projects (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
@@ -22,34 +30,31 @@ CREATE TABLE IF NOT EXISTS projects (
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Create index on slug for faster lookups
+-- Indexes
 CREATE INDEX IF NOT EXISTS idx_projects_slug ON projects(slug);
-
--- Create index on published and featured projects
 CREATE INDEX IF NOT EXISTS idx_projects_published ON projects(is_published, is_featured, sort_order);
 
--- Enable Row Level Security
+-- RLS
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 
--- Policy: Anyone can view published projects
+-- Policies — drop first so re-running never errors
+DROP POLICY IF EXISTS "Public can view published projects" ON projects;
 CREATE POLICY "Public can view published projects"
-  ON projects
-  FOR SELECT
+  ON projects FOR SELECT
   USING (is_published = true);
 
--- Policy: Authenticated users with admin role can do everything
+DROP POLICY IF EXISTS "Admins can manage projects" ON projects;
 CREATE POLICY "Admins can manage projects"
-  ON projects
-  FOR ALL
+  ON projects FOR ALL
   USING (
     EXISTS (
       SELECT 1 FROM admin_roles
       WHERE admin_roles.user_id = auth.uid()
-      AND admin_roles.role = 'admin'
+        AND admin_roles.role = 'admin'
     )
   );
 
--- Create function to update updated_at timestamp
+-- Trigger function (CREATE OR REPLACE is always safe)
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -58,7 +63,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create trigger to automatically update updated_at
+-- Trigger — drop first so re-running never errors
+DROP TRIGGER IF EXISTS update_projects_updated_at ON projects;
 CREATE TRIGGER update_projects_updated_at
   BEFORE UPDATE ON projects
   FOR EACH ROW

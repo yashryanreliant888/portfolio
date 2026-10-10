@@ -19,6 +19,7 @@ import {
 type Gallery = Database['public']['Tables']['gallery']['Row']
 type GalleryInsert = Database['public']['Tables']['gallery']['Insert']
 type GalleryUpdate = Database['public']['Tables']['gallery']['Update']
+const GALLERY_BUCKET = 'portfolio-media'
 
 export default function GalleryPage() {
   const [galleries, setGalleries] = useState<Gallery[]>([])
@@ -33,7 +34,7 @@ export default function GalleryPage() {
     image_path: '',
     date: '',
     is_published: true,
-    sort_order: 0
+    display_order: 0
   })
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function GalleryPage() {
       const { data, error } = await supabase
         .from('gallery')
         .select('*')
-        .order('sort_order', { ascending: true })
+        .order('display_order', { ascending: true })
 
       if (error) throw error
       setGalleries(data || [])
@@ -59,6 +60,10 @@ export default function GalleryPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (formData.image_path.startsWith('file://')) {
+      alert('Local file paths cannot be used. Choose the file with Browse or enter a public URL.')
+      return
+    }
     try {
       if (editingItem) {
         const { error } = await supabase
@@ -124,17 +129,17 @@ export default function GalleryPage() {
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
       const filePath = `${fileName}`
 
-      // Upload to Supabase Storage (gallery bucket)
+      // Store gallery images in the configured public media bucket.
       const { error: uploadError } = await supabase.storage
-        .from('gallery')
-        .upload(filePath, file)
+        .from(GALLERY_BUCKET)
+        .upload(`gallery/${filePath}`, file)
 
       if (uploadError) throw uploadError
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from('gallery')
-        .getPublicUrl(filePath)
+        .from(GALLERY_BUCKET)
+        .getPublicUrl(`gallery/${filePath}`)
 
       setFormData(prev => ({ ...prev, image_path: publicUrl }))
     } catch (error) {
@@ -157,8 +162,8 @@ export default function GalleryPage() {
 
     try {
       await Promise.all([
-        supabase.from('gallery').update({ sort_order: swap.sort_order }).eq('id', current.id),
-        supabase.from('gallery').update({ sort_order: current.sort_order }).eq('id', swap.id)
+        supabase.from('gallery').update({ display_order: swap.display_order }).eq('id', current.id),
+        supabase.from('gallery').update({ display_order: current.display_order }).eq('id', swap.id)
       ])
       await fetchGalleries()
     } catch (error) {
@@ -175,7 +180,7 @@ export default function GalleryPage() {
         image_path: item.image_path,
         date: item.date || '',
         is_published: item.is_published,
-        sort_order: item.sort_order
+        display_order: item.display_order
       })
     } else {
       setEditingItem(null)
@@ -185,7 +190,7 @@ export default function GalleryPage() {
         image_path: '',
         date: new Date().toISOString().split('T')[0],
         is_published: true,
-        sort_order: galleries.length
+        display_order: galleries.length
       })
     }
     setIsModalOpen(true)
@@ -200,7 +205,7 @@ export default function GalleryPage() {
       image_path: '',
       date: '',
       is_published: true,
-      sort_order: 0
+      display_order: 0
     })
   }
 
@@ -227,7 +232,7 @@ export default function GalleryPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {galleries.map((item, index) => (
-          <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div key={item.id} className="overflow-hidden rounded-cards border border-ash/20 bg-iron text-almost-white">
             <div className="relative h-48 bg-gray-100">
               {item.image_path ? (
                 <img
@@ -254,14 +259,14 @@ export default function GalleryPage() {
             </div>
 
             <div className="p-4">
-              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+              <h3 className="mb-2 text-lg font-bold text-almost-white">{item.title}</h3>
               {item.description && (
-                <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+                <p className="mb-2 line-clamp-2 text-sm text-steel">
                   {item.description}
                 </p>
               )}
               {item.date && (
-                <div className="flex items-center gap-1 text-sm text-gray-500 mb-3">
+                <div className="mb-3 flex items-center gap-1 text-sm text-steel">
                   <Calendar size={14} />
                   {new Date(item.date).toLocaleDateString()}
                 </div>
@@ -272,7 +277,7 @@ export default function GalleryPage() {
                   <button
                     onClick={() => updateSortOrder(item.id, 'up')}
                     disabled={index === 0}
-                    className="p-1 hover:bg-gray-100 rounded disabled:opacity-30"
+                    className="rounded p-1 text-steel hover:bg-near-black hover:text-almost-white disabled:opacity-30"
                     title="Move up"
                   >
                     <ArrowUp size={16} />
@@ -280,7 +285,7 @@ export default function GalleryPage() {
                   <button
                     onClick={() => updateSortOrder(item.id, 'down')}
                     disabled={index === galleries.length - 1}
-                    className="p-1 hover:bg-gray-100 rounded disabled:opacity-30"
+                    className="rounded p-1 text-steel hover:bg-near-black hover:text-almost-white disabled:opacity-30"
                     title="Move down"
                   >
                     <ArrowDown size={16} />
@@ -290,7 +295,7 @@ export default function GalleryPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openModal(item)}
-                    className="p-2 hover:bg-gray-100 rounded"
+                    className="rounded p-2 text-steel hover:bg-near-black hover:text-almost-white"
                     title="Edit"
                   >
                     <Pencil size={16} />
@@ -318,8 +323,8 @@ export default function GalleryPage() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-near-black/80 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-cards border border-ash/30 bg-iron text-almost-white">
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-4">
                 {editingItem ? 'Edit Gallery Item' : 'Add Gallery Item'}
@@ -327,48 +332,48 @@ export default function GalleryPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Title *</label>
+                  <label className="mb-1 block text-sm font-medium text-soft-white">Title *</label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg"
+                    className="admin-input"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <label className="mb-1 block text-sm font-medium text-soft-white">Description</label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg"
+                    className="admin-input"
                     rows={3}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Date</label>
+                  <label className="mb-1 block text-sm font-medium text-soft-white">Date</label>
                   <input
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg"
+                    className="admin-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Image *</label>
+                  <label className="mb-1 block text-sm font-medium text-soft-white">Image *</label>
                   <div className="space-y-2">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleFileUpload}
-                      className="w-full px-3 py-2 border rounded-lg"
+                      className="admin-input file:mr-3 file:rounded-buttons file:border-0 file:bg-lavender-mist file:px-3 file:py-1.5 file:text-sm file:text-near-black"
                       disabled={uploading}
                     />
-                    {uploading && <p className="text-sm text-blue-600">Uploading...</p>}
-                    {formData.image_path && (
+                    {uploading && <p className="text-sm text-lavender-mist">Uploading...</p>}
+                    {formData.image_path && !formData.image_path.startsWith('file://') && (
                       <div className="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
                         <img
                           src={formData.image_path}
@@ -382,19 +387,19 @@ export default function GalleryPage() {
                       value={formData.image_path}
                       onChange={(e) => setFormData({ ...formData, image_path: e.target.value })}
                       placeholder="Or enter image URL manually"
-                      className="w-full px-3 py-2 border rounded-lg text-sm"
+                      className="admin-input text-sm"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Sort Order</label>
+                  <label className="mb-1 block text-sm font-medium text-soft-white">Sort Order</label>
                   <input
                     type="number"
-                    value={formData.sort_order}
-                    onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border rounded-lg"
+                    value={formData.display_order}
+                    onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) })}
+                    className="admin-input"
                   />
                 </div>
 
@@ -406,7 +411,7 @@ export default function GalleryPage() {
                     onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
                     className="mr-2"
                   />
-                  <label htmlFor="is_published" className="text-sm font-medium">
+                  <label htmlFor="is_published" className="text-sm font-medium text-soft-white">
                     Published
                   </label>
                 </div>
@@ -415,13 +420,13 @@ export default function GalleryPage() {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                    className="rounded-buttons border border-ash/30 px-4 py-2 text-sm text-steel transition-colors hover:border-almost-white hover:text-almost-white"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="admin-primary"
                   >
                     {editingItem ? 'Update' : 'Create'}
                   </button>
