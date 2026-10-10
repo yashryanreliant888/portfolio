@@ -21,12 +21,12 @@ export function Header() {
     <header className="nav-bar">
       <nav className="max-w-page mx-auto px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-almost-white font-medium text-lg tracking-tight">
-          Yash Ryan Reliant
+        <Link href="/" className="terminal-brand" aria-label="Yash Ryan Reliant home">
+          YASH<span>RYAN</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:gap-8">
+        <div className="hidden lg:flex lg:items-center lg:gap-7">
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -36,6 +36,7 @@ export function Header() {
               {item.name}
             </Link>
           ))}
+          <Link href="/contact" className="terminal-nav-cta">LET'S TALK ↗</Link>
         </div>
 
         {/* Mobile menu button */}

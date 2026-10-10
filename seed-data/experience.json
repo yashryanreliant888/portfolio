@@ -1,0 +1,40 @@
+[
+  {
+    "organization": "Your Company Name",
+    "role": "Digital Marketing Intern",
+    "employment_type": "Internship",
+    "start_date": "2024-01-01",
+    "end_date": null,
+    "duration_label": "Jan 2024 - Present",
+    "description": "Contributing to digital marketing campaigns with focus on SEO, content creation, and social media management.",
+    "responsibilities": [
+      "Managed social media accounts and created engaging content",
+      "Conducted keyword research and implemented on-page SEO strategies",
+      "Designed marketing materials and campaign graphics",
+      "Analyzed campaign performance using Google Analytics",
+      "Collaborated with team on content calendar planning"
+    ],
+    "organization_logo_path": null,
+    "sort_order": 1,
+    "is_published": true
+  },
+  {
+    "organization": "Freelance",
+    "role": "Social Media Manager",
+    "employment_type": "Freelance",
+    "start_date": "2023-06-01",
+    "end_date": "2023-12-31",
+    "duration_label": "Jun 2023 - Dec 2023 · 7 mos",
+    "description": "Managed social media presence for small businesses and created content strategies to increase engagement.",
+    "responsibilities": [
+      "Created and scheduled social media content across platforms",
+      "Designed posters and graphics for campaigns",
+      "Managed client communications and deliverables",
+      "Tracked engagement metrics and provided monthly reports",
+      "Developed content calendars aligned with business goals"
+    ],
+    "organization_logo_path": null,
+    "sort_order": 2,
+    "is_published": true
+  }
+]

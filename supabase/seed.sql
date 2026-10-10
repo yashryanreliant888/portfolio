@@ -1,6 +1,7 @@
 -- ================================================
 -- SEED SCRIPT: Initial Portfolio Data
 -- Idempotent: Can be run multiple times safely
+-- Run order: This file runs first, then files in seeds/ folder
 -- ================================================
 
 -- ================================================

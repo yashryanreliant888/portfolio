@@ -12,3 +12,4 @@ export { EmptyState } from './EmptyState';
 export { ErrorMessage } from './ErrorMessage';
 export { PageLayout } from './PageLayout';
 export { Container } from './Container';
+export { SmoothScroll } from './SmoothScroll';

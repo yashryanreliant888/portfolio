@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { Database } from '../lib/database.types';
 
 // Load environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -15,14 +14,14 @@ if (!supabaseUrl || !supabaseServiceKey) {
 }
 
 // Create Supabase client with service role key
-const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey);
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function seedProjects() {
   console.log('🌱 Starting projects seed...\n');
 
   try {
     // Read the projects JSON file
-    const projectsPath = path.join(process.cwd(), 'yash-ryan-projects.json');
+    const projectsPath = path.join(process.cwd(), 'seed-data', 'projects.json');
     const projectsData = JSON.parse(fs.readFileSync(projectsPath, 'utf-8'));
 
     console.log(`📦 Found ${projectsData.length} projects to seed\n`);

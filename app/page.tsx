@@ -1,223 +1,56 @@
 import { createClient } from '@/lib/supabase/server';
-import { PageLayout, Container, Button, SectionHeading, SkillBadge, ExperienceCard, CertificationCard } from '@/components';
+import { PageLayout, Container, Button, ExperienceCard, CertificationCard } from '@/components';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function HomePage() {
   const supabase = await createClient();
+  const [{ data: profile }, { data: skills }, { data: experience }, { data: certifications }] = await Promise.all([
+    supabase.from('profiles').select('*').single(),
+    supabase.from('skills').select('*').eq('is_active', true).order('sort_order').limit(6),
+    supabase.from('experience').select('*').eq('is_published', true).order('sort_order').limit(2),
+    supabase.from('certifications').select('*').eq('is_published', true).order('sort_order').limit(3),
+  ]);
 
-  // Fetch profile
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .single();
+  const name = profile?.full_name || 'Yash Ryan Reliant';
+  const headline = profile?.headline || 'Digital Marketing Specialist';
 
-  // Fetch featured skills (first 6)
-  const { data: skills } = await supabase
-    .from('skills')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true })
-    .limit(6);
-
-  // Fetch published experience
-  const { data: experience } = await supabase
-    .from('experience')
-    .select('*')
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
-    .limit(2);
-
-  // Fetch published certifications
-  const { data: certifications } = await supabase
-    .from('certifications')
-    .select('*')
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
-    .limit(3);
-
-  return (
-    <PageLayout>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center">
-        <Container className="py-20">
-          <div className="max-w-4xl">
-            {/* Name with GrandSlang style */}
-            <h1 className="display-xl mb-6 text-almost-white">
-              {profile?.full_name || 'Yash Ryan Reliant'}
-            </h1>
-            
-            {/* Headline */}
-            <p className="heading text-soft-white mb-8">
-              {profile?.headline || 'Digital Marketing Specialist'}
-            </p>
-            
-            {/* Description */}
-            <p className="subheading text-steel max-w-2xl mb-12 leading-relaxed">
-              Focused on SEO, paid advertising, social media marketing, analytics, 
-              and AI-integrated digital marketing. Bringing data-driven strategies 
-              and creative execution to help brands grow their online presence.
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4">
-              <Button as="link" href="/projects" variant="violet" size="lg">
-                View My Work
-              </Button>
-              <Button as="link" href="/contact" variant="filled" size="lg">
-                Contact Me
-              </Button>
-            </div>
-            
-            {/* Location */}
-            {profile?.location && (
-              <p className="text-sm text-ash mt-8">
-                📍 {profile.location}
-              </p>
-            )}
+  return <PageLayout>
+    <section className="terminal-hero" aria-labelledby="hero-title">
+      <div className="terminal-hero__wash" aria-hidden="true" />
+      <Container className="relative z-10 py-16 lg:py-20">
+        <div className="terminal-hero__grid">
+          <div className="terminal-hero__copy">
+            <p className="terminal-kicker">YASH RYAN RELIANT / DIGITAL MARKETING</p>
+            <h1 id="hero-title"><span>{name.split(' ')[0]} <em>builds</em></span><strong>momentum</strong><span className="hero-outline">for ambitious brands.</span></h1>
+            <p className="terminal-hero__intro">{headline}. Search, story, and signal — brought together into marketing that moves with intent.</p>
+            <div className="terminal-hero__actions"><Button as="link" href="/projects" variant="violet" size="lg">Inspect the work <span aria-hidden="true">↗</span></Button><Link href="/contact" className="terminal-text-link">Start a conversation <span aria-hidden="true">→</span></Link></div>
+            <div className="terminal-hero__meta"><span><i aria-hidden="true">+</i> Kerala, India</span><span>SEO · PAID · ANALYTICS</span></div>
           </div>
-        </Container>
-      </section>
-
-      {/* Professional Snapshot */}
-      <section className="py-section border-t border-ash/20">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="heading-lg mb-8 text-almost-white">
-              Professional Snapshot
-            </h2>
-            <p className="body text-graphite leading-relaxed">
-              Early-career digital marketing professional with hands-on internship 
-              experience and advanced training in digital marketing strategies, 
-              advertising platforms, marketing analytics, and AI-integrated marketing. 
-              Passionate about leveraging data and creativity to deliver measurable results.
-            </p>
+          <div className="boarding-pass boarding-pass--hero" aria-label="Profile introduction">
+            <div className="boarding-pass__top"><span>BOARDING PASS / 001</span><span aria-hidden="true">✳</span></div>
+            <div className="boarding-pass__portrait"><Image src="/main-pic.png" alt={`${name} portrait`} fill priority sizes="(max-width: 900px) 90vw, 38vw" /></div>
+            <div className="boarding-pass__route"><div><small>ORIGIN</small><strong>INSIGHT</strong></div><span aria-hidden="true">→</span><div><small>DESTINATION</small><strong>IMPACT</strong></div></div>
+            <div className="boarding-pass__bottom"><span>READY FOR DEPARTURE</span><span className="boarding-pass__barcode" aria-hidden="true">▥▥▥▥</span></div>
           </div>
-        </Container>
-      </section>
+        </div>
+      </Container>
+      <div className="terminal-coordinate" aria-hidden="true"><span>+ &nbsp; FIELD NOTES / PORTFOLIO 2026</span><span>09.9312° N &nbsp; 76.2673° E &nbsp; ♥</span></div>
+    </section>
 
-      {/* Featured Skills */}
-      {skills && skills.length > 0 && (
-        <section className="py-section">
-          <Container>
-            <div className="mb-12">
-              <SectionHeading variant="stamp" className="mb-4">
-                T O O L S   &   S K I L L S
-              </SectionHeading>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {skills.map((skill) => (
-                <SkillBadge
-                  key={skill.id}
-                  name={skill.name}
-                  category={skill.category}
-                  proficiency={skill.proficiency}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <Button as="link" href="/skills" variant="ghost">
-                View All Skills
-              </Button>
-            </div>
-          </Container>
-        </section>
-      )}
+    <section className="terminal-section terminal-comparison" aria-labelledby="comparison-title">
+      <Container>
+        <div className="terminal-section__heading"><h2 id="comparison-title">How the signal moves <span aria-hidden="true">⌁</span></h2><p>Strategy is only useful when it lands in the real world.</p></div>
+        <div className="comparison-rail">
+          {['Find the opening', 'Build the system', 'Measure the lift'].map((title, index) => <article className={`comparison-ticket comparison-ticket--${index + 1}`} key={title}><span className="comparison-ticket__eyebrow">0{index + 1} / FIELD NOTE</span><h3>{title}</h3><p>{[skills?.[0]?.name || 'SEO foundations', skills?.[1]?.name || 'Campaign architecture', skills?.[2]?.name || 'Marketing analytics'][index]}</p><Link href="/projects">Explore <span aria-hidden="true">→</span></Link></article>)}
+        </div>
+      </Container>
+    </section>
 
-      {/* Experience Preview */}
-      {experience && experience.length > 0 && (
-        <section className="py-section border-t border-ash/20">
-          <Container>
-            <div className="mb-12">
-              <SectionHeading variant="stamp" className="mb-4">
-                E X P E R I E N C E
-              </SectionHeading>
-            </div>
-            
-            <div className="space-y-6 mb-12">
-              {experience.map((exp) => (
-                <ExperienceCard
-                  key={exp.id}
-                  organization={exp.organization}
-                  role={exp.role}
-                  employmentType={exp.employment_type}
-                  durationLabel={exp.duration_label}
-                  startDate={exp.start_date}
-                  endDate={exp.end_date}
-                  description={exp.description}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <Button as="link" href="/experience" variant="ghost">
-                View Full Experience
-              </Button>
-            </div>
-          </Container>
-        </section>
-      )}
+    {experience && experience.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="experience-title"><Container><div className="terminal-section__heading"><h2 id="experience-title">Recent departures</h2><Link href="/experience" className="terminal-text-link">View timeline →</Link></div><div className="space-y-6">{experience.map((exp) => <ExperienceCard key={exp.id} organization={exp.organization} role={exp.role} employmentType={exp.employment_type} durationLabel={exp.duration_label} startDate={exp.start_date} endDate={exp.end_date} description={exp.description} />)}</div></Container></section>}
 
-      {/* Featured Certifications */}
-      {certifications && certifications.length > 0 && (
-        <section className="py-section">
-          <Container>
-            <div className="mb-12">
-              <SectionHeading variant="stamp" className="mb-4">
-                C E R T I F I C A T I O N S
-              </SectionHeading>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {certifications.map((cert) => (
-                <CertificationCard
-                  key={cert.id}
-                  title={cert.title}
-                  issuer={cert.issuer}
-                  category={cert.category}
-                  issueDate={cert.issue_date}
-                  credentialUrl={cert.credential_url}
-                  certificateFilePath={cert.certificate_file_path}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <Button as="link" href="/certifications" variant="ghost">
-                View All Certifications
-              </Button>
-            </div>
-          </Container>
-        </section>
-      )}
+    {certifications && certifications.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="credentials-title"><Container><div className="terminal-section__heading"><h2 id="credentials-title">Credentials on file</h2><Link href="/certifications" className="terminal-text-link">Open archive →</Link></div><div className="grid gap-6 md:grid-cols-3">{certifications.map((cert) => <CertificationCard key={cert.id} title={cert.title} issuer={cert.issuer} category={cert.category} issueDate={cert.issue_date} credentialUrl={cert.verification_url} certificateFilePath={cert.public_path} />)}</div></Container></section>}
 
-      {/* Contact CTA */}
-      <section className="py-section border-t border-ash/20">
-        <Container>
-          <div className="card-violet-bloom text-center">
-            <h2 className="heading mb-6">Let's Work Together</h2>
-            <p className="body-sm text-lavender-mist mb-8 max-w-2xl mx-auto">
-              Looking for a digital marketing professional to help grow your brand? 
-              I'm available for internships, freelance projects, and full-time opportunities.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button as="link" href="/contact" variant="filled" size="lg">
-                Get in Touch
-              </Button>
-              <a
-                href={`mailto:${profile?.email || 'yashryanreliant@gmail.com'}`}
-                className="btn-filled inline-flex items-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-                Email Me
-              </a>
-            </div>
-          </div>
-        </Container>
-      </section>
-    </PageLayout>
-  );
+    <section className="terminal-cta" aria-labelledby="contact-title"><Container><div className="terminal-cta__inner"><div><p className="terminal-kicker">NEXT FLIGHT / OPEN</p><h2 id="contact-title">Have a signal worth sending?</h2></div><Button as="link" href="/contact" variant="filled" size="lg">Get in touch <span aria-hidden="true">↗</span></Button></div></Container></section>
+  </PageLayout>;
 }

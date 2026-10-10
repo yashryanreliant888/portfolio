@@ -15,13 +15,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-ash/20 mt-section">
+    <footer className="border-t border-ash/20 mt-section terminal-footer">
       <div className="max-w-page mx-auto px-8 py-16">
         {/* Main footer content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-medium mb-4">Yash Ryan Reliant</h3>
+            <h3 className="terminal-brand mb-4">YASH<span>RYAN</span></h3>
             <p className="text-sm text-steel mb-4">Digital Marketing Specialist</p>
             <a
               href="mailto:yashryanreliant@gmail.com"
@@ -67,7 +67,7 @@ export function Footer() {
           <p className="text-sm text-steel">
             © {currentYear} Yash Ryan Reliant. All rights reserved.
           </p>
-          <p className="text-sm text-steel">Kerala, India</p>
+          <p className="text-sm text-steel">09.9312° N &nbsp; 76.2673° E</p>
         </div>
       </div>
     </footer>

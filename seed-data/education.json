@@ -1,0 +1,26 @@
+[
+  {
+    "qualification": "Bachelor of Business Administration (BBA)",
+    "institution": "TKM College",
+    "field_of_study": "Marketing",
+    "study_start": "2021-06-01",
+    "study_end": "2024-05-31",
+    "status": "Completed",
+    "grade": null,
+    "description": "Focused on marketing, business strategy, and consumer behavior with hands-on projects in digital marketing and market research.",
+    "sort_order": 1,
+    "is_published": true
+  },
+  {
+    "qualification": "Higher Secondary Education",
+    "institution": "Your High School Name",
+    "field_of_study": "Commerce",
+    "study_start": "2019-06-01",
+    "study_end": "2021-05-31",
+    "status": "Completed",
+    "grade": null,
+    "description": "Commerce stream with focus on business studies, accountancy, and economics.",
+    "sort_order": 2,
+    "is_published": true
+  }
+]

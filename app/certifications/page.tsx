@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { PageLayout, Container, SectionHeading, CertificationCard, EmptyState } from '@/components';
 import type { Metadata } from 'next';
+import type { Database } from '@/lib/database.types';
+
+type Certification = Database['public']['Tables']['certifications']['Row'];
 
 export const metadata: Metadata = {
   title: 'Certifications | Yash Ryan Reliant',
@@ -15,16 +18,17 @@ export default async function CertificationsPage() {
     .select('*')
     .eq('is_published', true)
     .order('sort_order', { ascending: true });
+  const certificationList = certifications ?? [];
 
   // Group by category
-  const certsByCategory = certifications?.reduce((acc, cert) => {
+  const certsByCategory = certificationList.reduce((acc, cert: Certification) => {
     const category = cert.category || 'Other';
     if (!acc[category]) {
       acc[category] = [];
     }
     acc[category].push(cert);
     return acc;
-  }, {} as Record<string, typeof certifications>);
+  }, {} as Record<string, Certification[]>);
 
   const categories = certsByCategory ? Object.keys(certsByCategory).sort() : [];
 
@@ -44,7 +48,7 @@ export default async function CertificationsPage() {
       {/* Certifications Grid */}
       <section className="py-section border-t border-ash/20">
         <Container>
-          {certifications && certifications.length > 0 ? (
+          {certificationList.length > 0 ? (
             <div className="space-y-16">
               {categories.map((category) => (
                 <div key={category}>
@@ -52,15 +56,15 @@ export default async function CertificationsPage() {
                     {category.toUpperCase().replace(/ /g, '   ')}
                   </SectionHeading>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {certsByCategory[category].map((cert) => (
+                    {certsByCategory[category].map((cert: Certification) => (
                       <CertificationCard
                         key={cert.id}
                         title={cert.title}
                         issuer={cert.issuer}
                         category={cert.category}
                         issueDate={cert.issue_date}
-                        credentialUrl={cert.credential_url}
-                        certificateFilePath={cert.certificate_file_path}
+                        credentialUrl={cert.verification_url}
+                        certificateFilePath={cert.public_path}
                       />
                     ))}
                   </div>

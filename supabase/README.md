@@ -11,48 +11,90 @@ supabase/
 │   └── 002_enhanced_certifications_schema.sql  # Enhanced certifications table
 ├── seeds/
 │   └── certifications_seed.sql      # Certification data from JSON
-├── seed.sql                          # General seed data
+├── seed.sql                          # General seed data (runs first)
 ├── storage_setup.sql                 # Storage bucket configuration
+├── config.toml                       # Supabase CLI configuration
+├── setup.ps1                         # PowerShell setup script
 └── README.md                         # This file
 ```
 
-## Setup Instructions
+## Quick Start with CLI
+
+### Prerequisites
+
+1. Install Supabase CLI:
+```powershell
+# Using npm
+npm install -g supabase
+
+# Or using Scoop (Windows)
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+```
+
+2. Make sure you have your Supabase credentials in `.env.local`
+
+### Option 1: Using the Setup Script (Recommended)
+
+Run the interactive setup script:
+
+```powershell
+cd supabase
+.\setup.ps1
+```
+
+The script will guide you through:
+- Linking to your remote project
+- Pushing migrations
+- Seeding the database
+- Generating TypeScript types
+- Local development options
+
+### Option 2: Manual CLI Commands
+
+```powershell
+# 1. Link to your remote project
+supabase link --project-ref bdteruwmfewuidtgkjib
+
+# 2. Push all migrations
+supabase db push --linked
+
+# 3. Seed the database
+supabase db execute --file ./seed.sql --linked
+supabase db execute --file ./seeds/certifications_seed.sql --linked
+
+# 4. Generate TypeScript types
+supabase gen types typescript --linked > ../lib/database.types.ts
+```
+
+### Option 3: Reset Everything (Fresh Start)
+
+⚠️ **WARNING**: This will delete all data and recreate the database!
+
+```powershell
+# This runs migrations and seeds in one command
+supabase db reset --linked
+```
+
+## Setup Instructions (Manual - SQL Editor)
+
+If you prefer not to use the CLI:
 
 ### 1. Apply Migrations
 
-Migrations should be applied in order. If you're using Supabase CLI:
-
-```bash
-# Initialize Supabase (if not already done)
-supabase init
-
-# Link to your project
-supabase link --project-ref bdteruwmfewuidtgkjib
-
-# Apply all migrations
-supabase db push
-```
-
-Or apply them manually in the Supabase SQL Editor in this order:
+Go to Supabase SQL Editor and run in order:
 1. `migrations/001_initial_schema.sql`
 2. `migrations/002_enhanced_certifications_schema.sql`
 
 ### 2. Seed the Database
 
-After migrations are applied, run the seed files:
-
-```bash
-# Using Supabase CLI
-supabase db reset  # This applies migrations and seeds
-
-# Or manually run in SQL Editor:
-# 1. seed.sql (general data)
-# 2. seeds/certifications_seed.sql (certification data)
-```
+Run these in order:
+1. `seed.sql` (general data)
+2. `seeds/certifications_seed.sql` (certification data)
 
 ### 3. Setup Storage
 
-Run `storage_setup.sql` to create the storage buckets for certificates and other assets.
+Run `storage_setup.sql` to create storage buckets.
 
 ## Enhanced Certifications Schema
 

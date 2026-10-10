@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { PageLayout, Container, SectionHeading, SkillBadge, EmptyState } from '@/components';
 import type { Metadata } from 'next';
+import type { Database } from '@/lib/database.types';
+
+type Skill = Database['public']['Tables']['skills']['Row'];
 
 export const metadata: Metadata = {
   title: 'Skills & Tools | Yash Ryan Reliant',
@@ -15,16 +18,17 @@ export default async function SkillsPage() {
     .select('*')
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
+  const skillList = skills ?? [];
 
   // Group skills by category
-  const skillsByCategory = skills?.reduce((acc, skill) => {
+  const skillsByCategory = skillList.reduce((acc, skill: Skill) => {
     const category = skill.category || 'Other';
     if (!acc[category]) {
       acc[category] = [];
     }
     acc[category].push(skill);
     return acc;
-  }, {} as Record<string, typeof skills>);
+  }, {} as Record<string, Skill[]>);
 
   const categories = skillsByCategory ? Object.keys(skillsByCategory).sort() : [];
 
@@ -44,7 +48,7 @@ export default async function SkillsPage() {
       {/* Skills Grid */}
       <section className="py-section border-t border-ash/20">
         <Container>
-          {skills && skills.length > 0 ? (
+          {skillList.length > 0 ? (
             <div className="space-y-16">
               {categories.map((category) => (
                 <div key={category}>
@@ -52,7 +56,7 @@ export default async function SkillsPage() {
                     {category.toUpperCase().replace(/ /g, '   ')}
                   </SectionHeading>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {skillsByCategory[category].map((skill) => (
+                    {skillsByCategory[category].map((skill: Skill) => (
                       <SkillBadge
                         key={skill.id}
                         name={skill.name}

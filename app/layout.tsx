@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SmoothScroll } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Yash Ryan Reliant | Digital Marketing Specialist',
@@ -7,6 +8,9 @@ export const metadata: Metadata = {
   keywords: ['digital marketing', 'SEO', 'paid advertising', 'social media marketing', 'marketing analytics', 'Kerala', 'India'],
   authors: [{ name: 'Yash Ryan Reliant' }],
   creator: 'Yash Ryan Reliant',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  alternates: { canonical: '/' },
+  robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -27,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen">{children}</body>
+    <html lang="en">
+      <body className="min-h-screen"><SmoothScroll />{children}</body>
     </html>
   );
 }

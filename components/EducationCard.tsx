@@ -17,7 +17,7 @@ export function EducationCard({
   grade,
   description,
 }: EducationCardProps) {
-  const formatDate = (date: string | null) => {
+  const formatDate = (date: string | null | undefined) => {
     if (!date) return null;
     return new Date(date).getFullYear();
   };

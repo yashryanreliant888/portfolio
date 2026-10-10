@@ -1,0 +1,142 @@
+[
+  {
+    "name": "SEO (Search Engine Optimization)",
+    "category": "Digital Marketing",
+    "description": "On-page and off-page optimization, technical SEO, keyword research, and content strategy",
+    "proficiency": "Advanced",
+    "icon": "🔍",
+    "external_url": null,
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "name": "Google Analytics",
+    "category": "Analytics",
+    "description": "Web analytics, conversion tracking, audience analysis, and data-driven decision making",
+    "proficiency": "Advanced",
+    "icon": "📊",
+    "external_url": null,
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "name": "Social Media Marketing",
+    "category": "Digital Marketing",
+    "description": "Content strategy, community management, paid social advertising, and influencer partnerships",
+    "proficiency": "Advanced",
+    "icon": "📱",
+    "external_url": null,
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "name": "Content Marketing",
+    "category": "Digital Marketing",
+    "description": "Content strategy, copywriting, blog management, and editorial calendar planning",
+    "proficiency": "Advanced",
+    "icon": "✍️",
+    "external_url": null,
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "name": "Google Ads",
+    "category": "Paid Advertising",
+    "description": "Search ads, display campaigns, shopping ads, and performance optimization",
+    "proficiency": "Intermediate",
+    "icon": "💰",
+    "external_url": null,
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "name": "Meta Ads (Facebook/Instagram)",
+    "category": "Paid Advertising",
+    "description": "Campaign setup, audience targeting, creative optimization, and ROI tracking",
+    "proficiency": "Advanced",
+    "icon": "📣",
+    "external_url": null,
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "name": "Email Marketing",
+    "category": "Digital Marketing",
+    "description": "Campaign design, automation workflows, list segmentation, and A/B testing",
+    "proficiency": "Intermediate",
+    "icon": "📧",
+    "external_url": null,
+    "sort_order": 7,
+    "is_active": true
+  },
+  {
+    "name": "SEMrush",
+    "category": "Tools",
+    "description": "Competitive analysis, keyword research, backlink audits, and SEO reporting",
+    "proficiency": "Advanced",
+    "icon": "🛠️",
+    "external_url": "https://www.semrush.com/",
+    "sort_order": 8,
+    "is_active": true
+  },
+  {
+    "name": "Canva",
+    "category": "Design",
+    "description": "Social media graphics, presentations, and marketing materials",
+    "proficiency": "Advanced",
+    "icon": "🎨",
+    "external_url": "https://www.canva.com/",
+    "sort_order": 9,
+    "is_active": true
+  },
+  {
+    "name": "Adobe Photoshop",
+    "category": "Design",
+    "description": "Image editing, graphic design, and visual content creation",
+    "proficiency": "Intermediate",
+    "icon": "🖼️",
+    "external_url": null,
+    "sort_order": 10,
+    "is_active": true
+  },
+  {
+    "name": "Marketing Strategy",
+    "category": "Strategy",
+    "description": "Campaign planning, market research, competitive analysis, and brand positioning",
+    "proficiency": "Advanced",
+    "icon": "🎯",
+    "external_url": null,
+    "sort_order": 11,
+    "is_active": true
+  },
+  {
+    "name": "Copywriting",
+    "category": "Content",
+    "description": "Ad copy, landing pages, email campaigns, and persuasive writing",
+    "proficiency": "Advanced",
+    "icon": "📝",
+    "external_url": null,
+    "sort_order": 12,
+    "is_active": true
+  },
+  {
+    "name": "Microsoft Excel",
+    "category": "Tools",
+    "description": "Data analysis, reporting, pivot tables, and marketing dashboards",
+    "proficiency": "Advanced",
+    "icon": "📈",
+    "external_url": null,
+    "sort_order": 13,
+    "is_active": true
+  },
+  {
+    "name": "PowerPoint/Presentations",
+    "category": "Tools",
+    "description": "Pitch decks, campaign proposals, and client presentations",
+    "proficiency": "Advanced",
+    "icon": "📊",
+    "external_url": null,
+    "sort_order": 14,
+    "is_active": true
+  }
+]

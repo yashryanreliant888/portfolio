@@ -1,0 +1,11 @@
+import { createClient } from '@/lib/supabase/server';
+import { saveAdminRecord } from '../actions';
+import { AdminHeader, Field, RecordForm, StatusBadge, DeleteButton } from './AdminUI';
+import { deleteAdminRecord } from '../actions';
+
+export async function EntityPage({ table, title, description, fields, statusField }: { table: 'skills' | 'experience' | 'certifications' | 'education' | 'projects'; title: string; description: string; fields: Field[]; statusField?: 'is_active' | 'is_published' }) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from(table).select('*').order(statusField === 'is_active' ? 'sort_order' : 'created_at', { ascending: false });
+  const records = data ?? [];
+  return <div><AdminHeader title={title} description={description} /><div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]"><section className="space-y-3">{error && <div className="admin-alert">Unable to load records: {error.message}</div>}{records.length === 0 && <div className="admin-empty">No records yet. Create the first one using the form.</div>}{records.map((record) => <article key={record.id} className="admin-row"><div className="min-w-0"><div className="flex flex-wrap items-center gap-3"><h2 className="truncate text-base font-medium text-almost-white">{record.title || record.name || record.role || record.qualification || record.organization || 'Untitled record'}</h2>{statusField && <StatusBadge active={Boolean(record[statusField])} />}</div><p className="mt-1 line-clamp-2 text-sm text-steel">{record.summary || record.description || record.category || record.institution || record.issuer || 'No supporting description'}</p></div><div className="flex shrink-0 items-center gap-4"><details><summary className="cursor-pointer text-xs uppercase tracking-[0.1em] text-lavender-mist">Edit</summary><div className="mt-5 w-[min(75vw,640px)]"><RecordForm fields={fields} record={record} action={saveAdminRecord.bind(null, table, record.id)} /></div></details><DeleteButton action={deleteAdminRecord.bind(null, table, record.id)} /></div></article>)}</section><aside className="admin-panel h-fit"><h2 className="mb-5 text-lg font-medium text-almost-white">Add {title.slice(0, -1)}</h2><RecordForm fields={fields} action={saveAdminRecord.bind(null, table, null)} submitLabel="Create record" /></aside></div></div>;
+}

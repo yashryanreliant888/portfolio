@@ -391,6 +391,41 @@ export interface Database {
           created_at?: string
         }
       }
+      gallery: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          image_path: string
+          date: string | null
+          sort_order: number
+          is_published: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          image_path: string
+          date?: string | null
+          sort_order?: number
+          is_published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          image_path?: string
+          date?: string | null
+          sort_order?: number
+          is_published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }

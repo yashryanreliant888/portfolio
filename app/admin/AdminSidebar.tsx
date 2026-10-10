@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 
 const navigation = [
   { name: 'Overview', href: '/admin', icon: 'home' },
@@ -12,10 +13,13 @@ const navigation = [
   { name: 'Certifications', href: '/admin/certifications', icon: 'certificate' },
   { name: 'Education', href: '/admin/education', icon: 'academic' },
   { name: 'Projects', href: '/admin/projects', icon: 'folder' },
+  { name: 'Gallery', href: '/admin/gallery', icon: 'gallery' },
+  { name: 'Media Library', href: '/admin/media', icon: 'image' },
   { name: 'Contact Messages', href: '/admin/messages', icon: 'mail' },
+  { name: 'Admin Access', href: '/admin/team', icon: 'users' },
 ];
 
-const icons: Record<string, JSX.Element> = {
+const icons: Record<string, ReactNode> = {
   home: (
     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -55,6 +59,17 @@ const icons: Record<string, JSX.Element> = {
     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
     </svg>
+  ),
+  gallery: (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+    </svg>
+  ),
+  image: (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75v9.75A2.25 2.25 0 0118.75 18H5.25A2.25 2.25 0 013 15.75zm0 0l4.5-4.5 3 3 2.25-2.25 4.5 4.5M15.75 8.25h.008v.008h-.008V8.25z" /></svg>
+  ),
+  users: (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 01-6 0M18 19.128a9.38 9.38 0 002.25-.98M6 19.128a9.38 9.38 0 01-2.25-.98M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM21 12a3 3 0 11-6 0M3 12a3 3 0 116 0" /></svg>
   ),
 };
 
