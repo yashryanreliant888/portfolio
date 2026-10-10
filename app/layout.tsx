@@ -1,0 +1,34 @@
+import type { Metadata } from 'next';
+import './globals.css';
+
+export const metadata: Metadata = {
+  title: 'Yash Ryan Reliant | Digital Marketing Specialist',
+  description: 'Professional digital marketing portfolio showcasing expertise in SEO, paid advertising, social media marketing, analytics, and AI-integrated marketing.',
+  keywords: ['digital marketing', 'SEO', 'paid advertising', 'social media marketing', 'marketing analytics', 'Kerala', 'India'],
+  authors: [{ name: 'Yash Ryan Reliant' }],
+  creator: 'Yash Ryan Reliant',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    title: 'Yash Ryan Reliant | Digital Marketing Specialist',
+    description: 'Professional digital marketing portfolio showcasing expertise in SEO, paid advertising, social media marketing, and analytics.',
+    siteName: 'Yash Ryan Reliant Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Yash Ryan Reliant | Digital Marketing Specialist',
+    description: 'Digital marketing professional specializing in SEO, paid advertising, and analytics.',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body className="min-h-screen">{children}</body>
+    </html>
+  );
+}

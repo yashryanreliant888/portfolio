@@ -1,0 +1,247 @@
+[
+  {
+    "title": "College Research Project - TKM",
+    "slug": "college-research-project-tkm",
+    "category": "Academic Research",
+    "summary": "Comprehensive research project completed during college at TKM, demonstrating analytical and documentation skills.",
+    "objectives": "To conduct in-depth research and present findings in a structured academic format.",
+    "target_audience": "Academic evaluators and industry professionals",
+    "strategy": "Systematic research methodology with structured documentation and presentation of findings.",
+    "channels": ["Academic Presentation", "Written Report"],
+    "tools": ["Microsoft Office", "Research Tools"],
+    "deliverables": [
+      {
+        "title": "Research Report",
+        "description": "Complete project documentation and findings",
+        "file_path": "/Projects/college_project/TKM Project_Yash.pdf"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Project Status",
+        "value": "Completed",
+        "description": "Successfully completed and submitted"
+      }
+    ],
+    "cover_image_path": "/Projects/college_project/TKM Project_Yash.pdf",
+    "gallery": [
+      "/Projects/college_project/TKM Project_Yash.pdf"
+    ],
+    "external_url": null,
+    "is_featured": false,
+    "is_published": true,
+    "sort_order": 1
+  },
+  {
+    "title": "Content Calendar Strategy",
+    "slug": "content-calendar-strategy",
+    "category": "Content Marketing",
+    "summary": "Strategic content calendar planning for social media and digital marketing campaigns.",
+    "objectives": "Plan and organize content distribution across multiple channels for maximum engagement and consistency.",
+    "target_audience": "Social media audiences and marketing teams",
+    "strategy": "Develop a structured content calendar with themed content, optimal posting times, and platform-specific strategies.",
+    "channels": ["Social Media", "Content Marketing"],
+    "tools": ["Content Planning Tools", "Social Media Management"],
+    "deliverables": [
+      {
+        "title": "Content Calendar",
+        "description": "Visual content planning calendar",
+        "file_path": "/Projects/content calendar/CONTENT CALENDER.png"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Planning Efficiency",
+        "value": "Improved",
+        "description": "Streamlined content planning process"
+      }
+    ],
+    "cover_image_path": "/Projects/content calendar/CONTENT CALENDER.png",
+    "gallery": [
+      "/Projects/content calendar/CONTENT CALENDER.png"
+    ],
+    "external_url": null,
+    "is_featured": true,
+    "is_published": true,
+    "sort_order": 2
+  },
+  {
+    "title": "Social Media Poster Designs",
+    "slug": "social-media-poster-designs",
+    "category": "Graphic Design",
+    "summary": "Collection of creative social media posters for various campaigns and initiatives including automation, referral programs, student events, and brand promotions.",
+    "objectives": "Create visually engaging social media content that drives engagement and communicates key messages effectively.",
+    "target_audience": "Social media users and brand followers",
+    "strategy": "Design eye-catching graphics with clear messaging, strong visual hierarchy, and brand consistency across different campaign types.",
+    "channels": ["Instagram", "Social Media"],
+    "tools": ["Adobe Photoshop", "Canva", "Graphic Design Software"],
+    "deliverables": [
+      {
+        "title": "Automation Campaign Poster",
+        "description": "Poster promoting automation services",
+        "file_path": "/Projects/posters/AUTOMATION.png"
+      },
+      {
+        "title": "Final Design",
+        "description": "Finalized campaign poster",
+        "file_path": "/Projects/posters/Final.png"
+      },
+      {
+        "title": "GJ Campaign",
+        "description": "Gujarat campaign poster",
+        "file_path": "/Projects/posters/GJ.jpg"
+      },
+      {
+        "title": "Instagram QR Code",
+        "description": "Instagram profile QR code poster",
+        "file_path": "/Projects/posters/Insta QR.jpg"
+      },
+      {
+        "title": "Kashi Campaign",
+        "description": "Kashi brand promotion poster",
+        "file_path": "/Projects/posters/KASHI.png"
+      },
+      {
+        "title": "Referral Program",
+        "description": "Refer a friend campaign poster",
+        "file_path": "/Projects/posters/Refer a friend.png"
+      },
+      {
+        "title": "Review Campaign",
+        "description": "Customer review encouragement poster",
+        "file_path": "/Projects/posters/REVIEW.jpg"
+      },
+      {
+        "title": "Students Day",
+        "description": "Students Day celebration poster",
+        "file_path": "/Projects/posters/Students Day.jpg"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Designs Created",
+        "value": "8+",
+        "description": "Multiple poster designs for various campaigns"
+      },
+      {
+        "metric": "Campaign Coverage",
+        "value": "Diverse",
+        "description": "Covered automation, events, referrals, and brand promotions"
+      }
+    ],
+    "cover_image_path": "/Projects/posters/AUTOMATION.png",
+    "gallery": [
+      "/Projects/posters/AUTOMATION.png",
+      "/Projects/posters/Final.png",
+      "/Projects/posters/GJ.jpg",
+      "/Projects/posters/Insta QR.jpg",
+      "/Projects/posters/KASHI.png",
+      "/Projects/posters/Refer a friend.png",
+      "/Projects/posters/REVIEW.jpg",
+      "/Projects/posters/Students Day.jpg"
+    ],
+    "external_url": null,
+    "is_featured": true,
+    "is_published": true,
+    "sort_order": 3
+  },
+  {
+    "title": "Blue Tokai Brew School Campaign",
+    "slug": "blue-tokai-brew-school-campaign",
+    "category": "Campaign Strategy",
+    "summary": "Marketing campaign proposal for Blue Tokai's Brew School initiative, focusing on coffee education and brand engagement.",
+    "objectives": "Develop a comprehensive marketing campaign to promote Blue Tokai's Brew School, increase brand awareness, and drive enrollment.",
+    "target_audience": "Coffee enthusiasts, professionals, and individuals interested in learning about coffee brewing techniques",
+    "strategy": "Multi-channel campaign leveraging education marketing, experiential content, and community building to position Blue Tokai as a coffee authority.",
+    "channels": ["Social Media", "Email Marketing", "Content Marketing", "Events"],
+    "tools": ["PowerPoint", "Marketing Strategy Tools"],
+    "deliverables": [
+      {
+        "title": "Campaign Proposal",
+        "description": "Complete campaign strategy and execution plan",
+        "file_path": "/Projects/Proposals/Blue_Tokai_Brew_School_Campaign.pptx"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Proposal Status",
+        "value": "Completed",
+        "description": "Comprehensive campaign strategy developed"
+      }
+    ],
+    "cover_image_path": "/Projects/Proposals/Blue_Tokai_Brew_School_Campaign.pptx",
+    "gallery": [
+      "/Projects/Proposals/Blue_Tokai_Brew_School_Campaign.pptx"
+    ],
+    "external_url": null,
+    "is_featured": true,
+    "is_published": true,
+    "sort_order": 4
+  },
+  {
+    "title": "Market Analysis of IPCS Kollam",
+    "slug": "market-analysis-ipcs-kollam",
+    "category": "Market Research",
+    "summary": "Comprehensive market analysis for IPCS Kollam, examining market dynamics, competitive landscape, and growth opportunities.",
+    "objectives": "Conduct thorough market research to identify opportunities, challenges, and strategic recommendations for IPCS Kollam.",
+    "target_audience": "Business stakeholders and decision-makers",
+    "strategy": "Systematic market research methodology including competitor analysis, market segmentation, and SWOT analysis.",
+    "channels": ["Business Analysis", "Market Research"],
+    "tools": ["PowerPoint", "Market Research Tools", "Data Analysis"],
+    "deliverables": [
+      {
+        "title": "Market Analysis Report",
+        "description": "Complete market analysis with insights and recommendations",
+        "file_path": "/Projects/Proposals/Market Analysis of IPCS Kollam.pptx"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Analysis Depth",
+        "value": "Comprehensive",
+        "description": "In-depth market insights and strategic recommendations"
+      }
+    ],
+    "cover_image_path": "/Projects/Proposals/Market Analysis of IPCS Kollam.pptx",
+    "gallery": [
+      "/Projects/Proposals/Market Analysis of IPCS Kollam.pptx"
+    ],
+    "external_url": null,
+    "is_featured": false,
+    "is_published": true,
+    "sort_order": 5
+  },
+  {
+    "title": "Zepto Exam Mode Launch Campaign",
+    "slug": "zepto-exam-mode-launch-campaign",
+    "category": "Campaign Strategy",
+    "summary": "Strategic campaign proposal for Zepto's Exam Mode feature launch, targeting students during exam periods with quick delivery services.",
+    "objectives": "Create a compelling go-to-market strategy for Zepto's Exam Mode feature, focusing on student acquisition and retention during exam seasons.",
+    "target_audience": "College and university students, particularly during exam periods",
+    "strategy": "Student-centric campaign leveraging relatable messaging, strategic timing, and partnerships with educational institutions to drive adoption of Exam Mode.",
+    "channels": ["Digital Marketing", "Social Media", "Campus Marketing", "Influencer Partnerships"],
+    "tools": ["Marketing Planning", "Campaign Strategy"],
+    "deliverables": [
+      {
+        "title": "Campaign Launch Strategy",
+        "description": "Complete campaign strategy for Zepto Exam Mode launch",
+        "file_path": "/Projects/Proposals/Zepto_ExamMode_Launch_Campaign.pdf"
+      }
+    ],
+    "results": [
+      {
+        "metric": "Strategy Status",
+        "value": "Completed",
+        "description": "Full campaign strategy and execution plan developed"
+      }
+    ],
+    "cover_image_path": "/Projects/Proposals/Zepto_ExamMode_Launch_Campaign.pdf",
+    "gallery": [
+      "/Projects/Proposals/Zepto_ExamMode_Launch_Campaign.pdf"
+    ],
+    "external_url": null,
+    "is_featured": true,
+    "is_published": true,
+    "sort_order": 6
+  }
+]

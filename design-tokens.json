@@ -1,0 +1,469 @@
+{
+  "$schema": "https://tr.designtokens.org/format-module/spec/v1.0.0/",
+  "$description": "Midnight terminal aesthetic — dope.security inspired design system with rationed violet signal on near-black canvas",
+  "color": {
+    "near-black": {
+      "$value": "#090909",
+      "$type": "color",
+      "$description": "Page canvas, card surfaces, filled button backgrounds — the default void everything else floats in"
+    },
+    "almost-white": {
+      "$value": "#f7f9fa",
+      "$type": "color",
+      "$description": "Primary text, icon strokes, nav labels, and 1px borders — the paper-white that does all the talking against the void"
+    },
+    "soft-white": {
+      "$value": "#f0f0f0",
+      "$type": "color",
+      "$description": "Section label text in the stamped uppercase style — same family as Almost White but slightly dimmer for hierarchy"
+    },
+    "steel": {
+      "$value": "#828384",
+      "$type": "color",
+      "$description": "Muted secondary text, inactive button surfaces, subdued borders"
+    },
+    "graphite": {
+      "$value": "#474747",
+      "$type": "color",
+      "$description": "Card internal text and subtle dividers — readable on the near-black without competing with the primary text"
+    },
+    "iron": {
+      "$value": "#423738",
+      "$type": "color",
+      "$description": "Dark borders and separators for elevated surfaces and inverted UI. Do not promote it to the primary CTA color"
+    },
+    "ash": {
+      "$value": "#6b6b6b",
+      "$type": "color",
+      "$description": "Nav border dividers, helper text, low-emphasis body copy"
+    },
+    "signal-violet": {
+      "$value": "#af50ff",
+      "$type": "color",
+      "$description": "The only chromatic voice: feature card glow, primary action fill, and accent strokes — rationed like runway lighting, not decoration. Use once or twice per page maximum."
+    },
+    "lavender-mist": {
+      "$value": "#e1bdff",
+      "$type": "color",
+      "$description": "Soft tint paired with Signal Violet for contrast-safe text and washed background accents"
+    }
+  },
+  "font": {
+    "whyte-inktrap": {
+      "$value": "Whyte Inktrap, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "$type": "fontFamily",
+      "$description": "Primary workhorse — body, nav, buttons, links, and most headings. The inktrap corners give geometry warmth without losing precision."
+    },
+    "whyte-inktrap-mono": {
+      "$value": "Whyte Inktrap Mono, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      "$type": "fontFamily",
+      "$description": "The stamped-letterhead voice: 74px uppercase sections with 0.2em tracking. Mechanical against the humanist Whyte."
+    },
+    "grandslang": {
+      "$value": "GrandSlang, 'Tiempos Headline', 'Lora', Georgia, serif",
+      "$type": "fontFamily",
+      "$description": "The italic display serif reserved for the hero — never for body or nav. Never below 32px."
+    }
+  },
+  "typography": {
+    "caption": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "10px",
+        "fontWeight": 400,
+        "lineHeight": 1,
+        "letterSpacing": "0.18em"
+      },
+      "$type": "typography",
+      "$description": "Smallest labels and captions"
+    },
+    "body-sm": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "14px",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0"
+      },
+      "$type": "typography",
+      "$description": "Compact body text"
+    },
+    "body": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "16px",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0"
+      },
+      "$type": "typography",
+      "$description": "Primary body text"
+    },
+    "subheading": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "20px",
+        "fontWeight": 300,
+        "lineHeight": 1,
+        "letterSpacing": "-0.01em"
+      },
+      "$type": "typography",
+      "$description": "Subheadings and large body"
+    },
+    "heading-sm": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "32px",
+        "fontWeight": 400,
+        "lineHeight": 1.2,
+        "letterSpacing": "-0.01em"
+      },
+      "$type": "typography",
+      "$description": "Small headings"
+    },
+    "heading": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "48px",
+        "fontWeight": 400,
+        "lineHeight": 1.2,
+        "letterSpacing": "-0.02em"
+      },
+      "$type": "typography",
+      "$description": "Standard headings"
+    },
+    "heading-lg": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "64px",
+        "fontWeight": 500,
+        "lineHeight": 1.2,
+        "letterSpacing": "-0.04em"
+      },
+      "$type": "typography",
+      "$description": "Large headings"
+    },
+    "section-stamp": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap-mono}",
+        "fontSize": "74px",
+        "fontWeight": 400,
+        "lineHeight": 0.9,
+        "letterSpacing": "0.2em"
+      },
+      "$type": "typography",
+      "$description": "Stamped section headings — uppercase only. The tracking IS the design."
+    },
+    "display": {
+      "$value": {
+        "fontFamily": "{font.grandslang}",
+        "fontSize": "88px",
+        "fontWeight": 400,
+        "lineHeight": 0.8,
+        "letterSpacing": "-0.03em"
+      },
+      "$type": "typography",
+      "$description": "Hero display text — GrandSlang italic only"
+    },
+    "display-xl": {
+      "$value": {
+        "fontFamily": "{font.grandslang}",
+        "fontSize": "146px",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0"
+      },
+      "$type": "typography",
+      "$description": "Extra large hero display — GrandSlang italic"
+    },
+    "nav-label": {
+      "$value": {
+        "fontFamily": "{font.whyte-inktrap}",
+        "fontSize": "12px",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0.07em"
+      },
+      "$type": "typography",
+      "$description": "Navigation labels — uppercase with wide tracking"
+    }
+  },
+  "spacing": {
+    "unit": {
+      "$value": "4px",
+      "$type": "dimension",
+      "$description": "Base spacing unit — all spacing derives from 4px increments"
+    },
+    "4": {
+      "$value": "4px",
+      "$type": "dimension"
+    },
+    "8": {
+      "$value": "8px",
+      "$type": "dimension"
+    },
+    "12": {
+      "$value": "12px",
+      "$type": "dimension"
+    },
+    "16": {
+      "$value": "16px",
+      "$type": "dimension"
+    },
+    "20": {
+      "$value": "20px",
+      "$type": "dimension"
+    },
+    "24": {
+      "$value": "24px",
+      "$type": "dimension"
+    },
+    "32": {
+      "$value": "32px",
+      "$type": "dimension"
+    },
+    "40": {
+      "$value": "40px",
+      "$type": "dimension"
+    },
+    "48": {
+      "$value": "48px",
+      "$type": "dimension"
+    },
+    "64": {
+      "$value": "64px",
+      "$type": "dimension"
+    },
+    "72": {
+      "$value": "72px",
+      "$type": "dimension"
+    },
+    "80": {
+      "$value": "80px",
+      "$type": "dimension"
+    },
+    "96": {
+      "$value": "96px",
+      "$type": "dimension"
+    },
+    "128": {
+      "$value": "128px",
+      "$type": "dimension"
+    },
+    "136": {
+      "$value": "136px",
+      "$type": "dimension"
+    },
+    "160": {
+      "$value": "160px",
+      "$type": "dimension"
+    }
+  },
+  "layout": {
+    "page-max-width": {
+      "$value": "1200px",
+      "$type": "dimension",
+      "$description": "Maximum content width — centered on page"
+    },
+    "section-gap": {
+      "$value": "120px",
+      "$type": "dimension",
+      "$description": "Vertical spacing between major sections"
+    },
+    "card-padding": {
+      "$value": "40px",
+      "$type": "dimension",
+      "$description": "Internal padding for cards and panels"
+    },
+    "element-gap": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$description": "Standard gap between inline elements"
+    }
+  },
+  "radius": {
+    "cards": {
+      "$value": "19.2px",
+      "$type": "dimension",
+      "$description": "Card corner radius — the soft signature corner"
+    },
+    "pills": {
+      "$value": "1584px",
+      "$type": "dimension",
+      "$description": "Pill button radius — effectively full pill"
+    },
+    "buttons": {
+      "$value": "8px",
+      "$type": "dimension",
+      "$description": "Standard button radius"
+    },
+    "small-controls": {
+      "$value": "6px",
+      "$type": "dimension",
+      "$description": "Small control radius — compact density"
+    }
+  },
+  "shadow": {
+    "nav": {
+      "$value": "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
+      "$type": "shadow",
+      "$description": "The only shadow in the system — nav bar hairline only"
+    }
+  },
+  "surface": {
+    "void-canvas": {
+      "$value": "#090909",
+      "$type": "color",
+      "$description": "Level 0: Full-bleed page background — every section sits directly on this"
+    },
+    "translucent-panel": {
+      "$value": "rgba(51, 50, 72, 0.7)",
+      "$type": "color",
+      "$description": "Level 1: Floating nav with backdrop blur — frosted glass strip pinned to top. Requires backdrop-filter: blur(10px)"
+    },
+    "iron-wash": {
+      "$value": "#423738",
+      "$type": "color",
+      "$description": "Level 2: Ghost button fills and subtle card washes"
+    },
+    "violet-bloom": {
+      "$value": "#af50ff",
+      "$type": "color",
+      "$description": "Level 3: Feature card backgrounds and radial glows — the one break from monochrome. One or two per page maximum."
+    }
+  },
+  "border": {
+    "hairline": {
+      "$value": "1px",
+      "$type": "dimension",
+      "$description": "Standard hairline stroke weight"
+    },
+    "hairline-subtle": {
+      "$value": "0.5px",
+      "$type": "dimension",
+      "$description": "Ultra-subtle divider weight"
+    },
+    "color-primary": {
+      "$value": "rgba(247, 249, 250, 0.2)",
+      "$type": "color",
+      "$description": "Standard border color at 20% opacity"
+    },
+    "color-subtle": {
+      "$value": "rgba(247, 249, 250, 0.1)",
+      "$type": "color",
+      "$description": "Subtle border color at 10% opacity"
+    }
+  },
+  "component": {
+    "button": {
+      "filled": {
+        "background": {
+          "$value": "{color.near-black}",
+          "$type": "color"
+        },
+        "border": {
+          "$value": "{color.almost-white}",
+          "$type": "color"
+        },
+        "text": {
+          "$value": "{color.almost-white}",
+          "$type": "color"
+        },
+        "radius": {
+          "$value": "{radius.buttons}",
+          "$type": "dimension"
+        },
+        "padding": {
+          "$value": "16px",
+          "$type": "dimension"
+        }
+      },
+      "ghost-pill": {
+        "background": {
+          "$value": "rgba(237, 195, 196, 0.05)",
+          "$type": "color"
+        },
+        "text": {
+          "$value": "{color.almost-white}",
+          "$type": "color"
+        },
+        "radius": {
+          "$value": "{radius.pills}",
+          "$type": "dimension"
+        },
+        "padding-vertical": {
+          "$value": "20px",
+          "$type": "dimension"
+        },
+        "padding-horizontal": {
+          "$value": "32px",
+          "$type": "dimension"
+        }
+      }
+    },
+    "nav": {
+      "background": {
+        "$value": "{surface.translucent-panel}",
+        "$type": "color",
+        "$description": "Must be used with backdrop-filter: blur(10px)"
+      },
+      "border": {
+        "$value": "{color.ash}",
+        "$type": "color"
+      },
+      "shadow": {
+        "$value": "{shadow.nav}",
+        "$type": "shadow"
+      }
+    },
+    "card": {
+      "background": {
+        "$value": "transparent",
+        "$type": "color",
+        "$description": "Default card background — let layout create boundary"
+      },
+      "border": {
+        "$value": "{border.color-primary}",
+        "$type": "color"
+      },
+      "radius": {
+        "$value": "{radius.cards}",
+        "$type": "dimension"
+      },
+      "padding": {
+        "$value": "{layout.card-padding}",
+        "$type": "dimension"
+      }
+    },
+    "boarding-pass": {
+      "background": {
+        "$value": "rgba(237, 195, 196, 0.05)",
+        "$type": "color"
+      },
+      "border": {
+        "$value": "{border.color-primary}",
+        "$type": "color"
+      },
+      "radius": {
+        "$value": "{radius.cards}",
+        "$type": "dimension"
+      },
+      "padding": {
+        "$value": "{layout.card-padding}",
+        "$type": "dimension"
+      }
+    }
+  },
+  "$extensions": {
+    "com.portfolio.yash": {
+      "version": "1.0.0",
+      "created": "2026-10-10",
+      "theme": "midnight-terminal",
+      "inspiration": "dope.security",
+      "colorDiscipline": "95% achromatic, 5% signal violet — rationed like runway lighting",
+      "typographyPhilosophy": "Three fonts, three jobs: Whyte Inktrap (workhorse), Whyte Inktrap Mono (stamps), GrandSlang (hero warmth)",
+      "elevationStrategy": "Shadowless — separation through hairlines and washes only",
+      "imageStrategy": "One dramatic hero photo, then iconographic dominance"
+    }
+  }
+}
