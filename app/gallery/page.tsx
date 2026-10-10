@@ -1,109 +1,69 @@
-import { supabase } from '@/lib/supabase'
-import { Database } from '@/lib/database.types'
-import { Calendar, Image as ImageIcon } from 'lucide-react'
+import { Calendar, Image as ImageIcon } from 'lucide-react';
+import type { Metadata } from 'next';
+import { Container } from '@/components/Container';
+import { PageLayout } from '@/components/PageLayout';
+import { createClient } from '@/lib/supabase/server';
+import type { Database } from '@/lib/database.types';
 
-type Gallery = Database['public']['Tables']['gallery']['Row']
+type Gallery = Database['public']['Tables']['gallery']['Row'];
 
-function getGalleryDescription(value: unknown) {
-  if (typeof value === 'string') return value
-  if (value && typeof value === 'object' && 'description' in value && typeof value.description === 'string') return value.description
-  return ''
-}
+export const metadata: Metadata = {
+  title: 'Gallery | Yash Ryan Reliant',
+  description: 'A visual archive of places, projects, and moments from Yash Ryan Reliant.',
+};
 
-async function getGalleryItems() {
-  const { data, error } = await supabase
-    .from('gallery')
-    .select('*')
-    .eq('is_published', true)
-    .order('display_order', { ascending: true })
-
-  if (error) {
-    console.error('Error fetching gallery:', error)
-    return []
-  }
-
-  return data
+function getDescription(value: unknown) {
+  if (typeof value === 'string') return value;
+  if (value && typeof value === 'object' && 'description' in value && typeof value.description === 'string') return value.description;
+  return '';
 }
 
 export default async function GalleryPage() {
-  const galleryItems = await getGalleryItems()
+  const supabase = await createClient();
+  const { data } = await supabase.from('gallery').select('*').eq('is_published', true).order('display_order', { ascending: true });
+  const galleryItems = (data || []) as Gallery[];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Gallery
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            A collection of moments, memories, and visual stories
-          </p>
-        </div>
+    <PageLayout>
+      <section className="py-section">
+        <Container>
+          <p className="terminal-kicker">Visual archive</p>
+          <h1 className="display mt-5 text-almost-white">Gallery</h1>
+          <p className="subheading mt-6 max-w-2xl text-steel">A collection of places, projects, and visual signals worth keeping.</p>
+        </Container>
+      </section>
 
-        {/* Gallery Grid */}
-        {galleryItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryItems.map((item) => (
-              <div
-                key={item.id}
-                className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-              >
-                {/* Image Container */}
-                <div className="relative h-64 bg-gray-100 overflow-hidden">
-                  {item.image_path ? (
-                    <img
-                      src={item.image_path}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <ImageIcon size={48} className="text-gray-400" />
+      <section className="border-t border-white/10 py-section">
+        <Container>
+          {galleryItems.length > 0 ? (
+            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {galleryItems.map((item) => {
+                const description = getDescription(item.description);
+                return (
+                  <article key={item.id} className="group">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-cards border border-white/15 bg-iron">
+                      {item.image_path ? (
+                        <img src={item.image_path} alt={item.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                      ) : (
+                        <div className="grid h-full place-items-center"><ImageIcon size={42} className="text-ash" /></div>
+                      )}
                     </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {item.title}
-                  </h3>
-                  
-                  {getGalleryDescription(item.description) && (
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-3">
-                      {getGalleryDescription(item.description)}
-                    </p>
-                  )}
-
-                  {item.date && (
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar size={16} />
-                      <time dateTime={item.date}>
-                        {new Date(item.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </time>
+                    <div className="mt-5 flex items-start justify-between gap-4">
+                      <div>
+                        <h2 className="text-xl font-medium tracking-[-0.03em] text-almost-white">{item.title}</h2>
+                        {description && <p className="mt-2 text-sm leading-6 text-steel">{description}</p>}
+                      </div>
+                      {item.date && <time dateTime={item.date} className="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-ash"><Calendar size={12} />{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</time>}
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <ImageIcon size={64} className="mx-auto text-gray-400 mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-              No Gallery Items Yet
-            </h2>
-            <p className="text-gray-600">
-              Check back soon for visual stories and moments!
-            </p>
-          </div>
-        )}
-      </div>
-    </main>
-  )
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="admin-empty">The gallery is quiet for now. Check back soon.</div>
+          )}
+        </Container>
+      </section>
+    </PageLayout>
+  );
 }

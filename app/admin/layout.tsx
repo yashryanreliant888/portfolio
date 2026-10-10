@@ -11,18 +11,18 @@ export default async function AdminLayout({
   if (!user) return children;
 
   return (
-    <div className="min-h-screen bg-near-black">
+    <div className="admin-shell min-h-screen bg-near-black">
       <div className="flex">
         {/* Sidebar */}
         <AdminSidebar />
 
         {/* Main Content */}
-        <div className="flex-1 lg:pl-64">
+        <div className="admin-main flex-1 lg:pl-72">
           {/* Top Bar */}
           <AdminTopBar user={user} />
 
           {/* Page Content */}
-          <main className="p-8">
+          <main className="admin-main__content px-5 py-6 sm:px-8 lg:px-10">
             {children}
           </main>
         </div>

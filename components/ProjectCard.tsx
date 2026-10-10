@@ -18,11 +18,13 @@ export function ProjectCard({
   coverImagePath,
   isFeatured,
 }: ProjectCardProps) {
+  const isImage = typeof coverImagePath === 'string' && /^(https?:\/\/|\/)/i.test(coverImagePath) && /\.(avif|gif|jpe?g|png|webp)(\?.*)?$/i.test(coverImagePath);
+  const isDocument = Boolean(coverImagePath) && !isImage;
   return (
     <Link href={`/projects/${slug}`} className="group block">
       <div className={`card border ${isFeatured ? 'border-signal-violet/50' : 'border-ash/20'} overflow-hidden hover:border-signal-violet transition-all duration-300`}>
         {/* Cover Image */}
-        {coverImagePath ? (
+        {isImage ? (
           <div className="relative w-full aspect-[16/9] bg-iron">
             <Image
               src={coverImagePath}
@@ -30,6 +32,13 @@ export function ProjectCard({
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
+          </div>
+        ) : isDocument ? (
+          <div className="relative flex aspect-[16/9] items-center justify-center bg-iron px-8 text-center">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.16em] text-lavender-mist">Project file</p>
+              <p className="mt-2 text-sm text-steel">Open the case study to view the document</p>
+            </div>
           </div>
         ) : (
           <div className="relative w-full aspect-[16/9] bg-iron flex items-center justify-center">

@@ -82,7 +82,7 @@ export function AdminSidebar() {
       {/* Mobile menu button */}
       <button
         type="button"
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-buttons bg-iron border border-ash/20 text-almost-white"
+        className="admin-menu-button lg:hidden fixed top-4 left-4 z-50"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         aria-label="Toggle menu"
       >
@@ -97,23 +97,20 @@ export function AdminSidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-iron border-r border-ash/20 transform transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`admin-sidebar fixed inset-y-0 left-0 z-40 w-60 transform transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-ash/20">
-            <Link href="/admin" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-signal-violet rounded-buttons flex items-center justify-center">
-                <span className="text-sm font-bold text-almost-white">YR</span>
-              </div>
-              <span className="text-lg font-medium text-almost-white">Admin Panel</span>
+          <div className="admin-sidebar__brand">
+            <Link href="/admin" className="flex items-center">
+              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-almost-white">Portfolio OS</span>
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+          <nav className="admin-sidebar__nav flex-1 overflow-y-auto">
             {navigation.map((item) => {
               const isActive = pathname === item.href || 
                              (item.href !== '/admin' && pathname.startsWith(item.href));
@@ -123,8 +120,8 @@ export function AdminSidebar() {
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-buttons transition-colors ${
                     isActive
-                      ? 'bg-signal-violet text-almost-white'
-                      : 'text-steel hover:bg-near-black hover:text-almost-white'
+                      ? 'admin-nav-link admin-nav-link--active'
+                      : 'admin-nav-link text-steel hover:text-almost-white'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -136,12 +133,12 @@ export function AdminSidebar() {
           </nav>
 
           {/* View Site */}
-          <div className="p-4 border-t border-ash/20">
+          <div className="admin-sidebar__footer">
             <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-4 py-3 text-steel hover:text-almost-white transition-colors"
+              className="admin-nav-link text-steel hover:text-almost-white transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />

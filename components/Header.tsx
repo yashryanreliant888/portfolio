@@ -22,7 +22,14 @@ export function Header() {
       <nav className="max-w-page mx-auto px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="terminal-brand" aria-label="Yash Ryan Reliant home">
-          YASH<span>RYAN</span>
+          <span className="terminal-brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" role="presentation">
+              <path d="M7 7v18M7 7l9 9m0 0 9-9m-9 9v9" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" />
+              <path d="M21 16h4" stroke="var(--color-signal-violet)" strokeWidth="2" strokeLinecap="square" />
+              <circle cx="25" cy="16" r="1.6" fill="var(--color-signal-violet)" />
+            </svg>
+          </span>
+          <span className="terminal-brand__name">YASH<span>RYAN</span></span>
         </Link>
 
         {/* Desktop Navigation */}

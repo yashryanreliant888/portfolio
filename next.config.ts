@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    // Allow pdfjs-dist to resolve its worker via import.meta.url
+    config.resolve.alias.canvas = false;
+    return config;
+  },
 };
 
 export default nextConfig;

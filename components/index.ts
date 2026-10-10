@@ -5,6 +5,7 @@ export { SectionHeading } from './SectionHeading';
 export { SkillBadge } from './SkillBadge';
 export { ExperienceCard } from './ExperienceCard';
 export { CertificationCard } from './CertificationCard';
+export { PdfThumbnail } from './PdfThumbnail';
 export { EducationCard } from './EducationCard';
 export { ProjectCard } from './ProjectCard';
 export { LoadingSpinner, LoadingSkeleton } from './LoadingSpinner';

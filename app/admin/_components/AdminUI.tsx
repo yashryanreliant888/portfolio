@@ -40,7 +40,7 @@ export function DeleteButton({ action }: { action: () => Promise<void> }) {
 }
 
 export function AdminHeader({ title, description, action }: { title: string; description: string; action?: React.ReactNode }) {
-  return <div className="mb-8 flex flex-col gap-4 border-b border-ash/20 pb-6 sm:flex-row sm:items-end sm:justify-between"><div><p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-signal-violet">Admin / workspace</p><h1 className="text-3xl font-medium tracking-[-0.03em] text-almost-white">{title}</h1><p className="mt-2 max-w-2xl text-sm text-steel">{description}</p></div>{action}</div>;
+  return <div className="mb-8 flex flex-col gap-4 border-b border-ash/20 pb-6 sm:flex-row sm:items-end sm:justify-between"><div><h1 className="text-3xl font-medium tracking-[-0.04em] text-almost-white">{title}</h1><p className="mt-2 max-w-2xl text-sm text-steel">{description}</p></div>{action}</div>;
 }
 
 export function StatusBadge({ active, label }: { active: boolean; label?: string }) { return <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] ${active ? 'bg-lavender-mist/10 text-lavender-mist' : 'bg-ash/20 text-steel'}`}>{label || (active ? 'Published' : 'Draft')}</span>; }

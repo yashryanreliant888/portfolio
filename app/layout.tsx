@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   keywords: ['digital marketing', 'SEO', 'paid advertising', 'social media marketing', 'marketing analytics', 'Kerala', 'India'],
   authors: [{ name: 'Yash Ryan Reliant' }],
   creator: 'Yash Ryan Reliant',
+  icons: { icon: '/icon.svg' },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
