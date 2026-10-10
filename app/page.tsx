@@ -39,7 +39,7 @@ export default async function HomePage() {
 
           <div className="hero-stage" aria-label="Portrait of Yash Ryan Reliant">
           <div className="hero-stage__halo" aria-hidden="true" />
-          <div className="hero-stage__portrait"><Image src={mainPic} alt={`${name} portrait`} fill priority sizes="(max-width: 700px) 88vw, 470px" /></div>
+          <div className="hero-stage__portrait"><Image src={mainPic} alt={`${name} portrait`} fill priority quality={100} sizes="(max-width: 700px) 88vw, 760px" /></div>
           <div className="hero-float hero-float--left"><span className="hero-float__label">FOCUS / 01</span><strong>Find the opening.</strong><span>Audience, insight, direction.</span></div>
           <div className="hero-float hero-float--right"><span className="hero-float__label">CURRENTLY</span><strong>Building momentum.</strong><span>SEO · PAID · ANALYTICS</span></div>
           <div className="hero-float hero-float--bottom"><span>KERALA, INDIA</span><span className="hero-float__rule" /><span>OPEN TO GOOD WORK</span></div>

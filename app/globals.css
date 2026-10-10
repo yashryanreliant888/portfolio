@@ -291,15 +291,15 @@ html.is-entering.is-playing .au-enter { --au-state: running; }
 
 /* Keep the portrait low and independent from the editorial copy on wide screens. */
 @media (min-width: 841px) {
-  .hero-stage__portrait { bottom: 0; width: min(56vw, 620px); height: min(72vh, 680px); overflow: visible; border: 0; border-radius: 0; background: transparent; mix-blend-mode: screen; }
+  .hero-stage__portrait { bottom: -360px; width: min(64vw, 700px); height: min(78vh, 720px); overflow: visible; border: 0; border-radius: 0; background: transparent; mix-blend-mode: normal; }
   .hero-stage__portrait::before { display: none; }
-  .hero-stage__portrait::after { background: linear-gradient(180deg, transparent 58%, rgba(6,10,34,.12) 78%, rgba(6,10,34,.72) 100%); }
-  .hero-stage__portrait img { mix-blend-mode: normal; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,.78) 88%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,.78) 88%, transparent 100%); }
-  .hero-stage__halo { bottom: 0; }
+  .hero-stage__portrait::after { background: none; }
+  .hero-stage__portrait img { mix-blend-mode: screen; object-fit: contain; object-position: center top; transform: scale(1.6); transform-origin: center bottom; -webkit-mask-image: none; mask-image: none; }
+  .hero-stage__halo { bottom: 40px; width: min(62vw, 720px); height: min(62vw, 720px); }
 }
 
 @media (max-width: 840px) {
-  .hero-stage__portrait { overflow: visible; border: 0; background: transparent; mix-blend-mode: screen; }
-  .hero-stage__portrait::after { background: linear-gradient(180deg, transparent 56%, rgba(6,10,34,.55) 100%); }
-  .hero-stage__portrait img { -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,.78) 88%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,.78) 88%, transparent 100%); }
+  .hero-stage__portrait { bottom: 0; overflow: visible; border: 0; background: transparent; mix-blend-mode: normal; }
+  .hero-stage__portrait::after { background: none; }
+  .hero-stage__portrait img { mix-blend-mode: screen; object-fit: contain; object-position: center top; transform: scale(1.38); transform-origin: center bottom; -webkit-mask-image: none; mask-image: none; }
 }
