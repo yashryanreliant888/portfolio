@@ -15,6 +15,7 @@ import { Skiper19 } from '@/components/ui/skiper-ui/skiper19';
 import { Skiper31 } from '@/components/ui/skiper-ui/skiper31';
 import { Skiper30 } from '@/components/v1/skiper30';
 import { Skiper52 } from '@/components/ui/skiper-ui/skiper52';
+import { ContactCTASection } from '@/components/ContactCTASection';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -115,7 +116,7 @@ export default async function HomePage() {
     <Skiper30 />
 
     {certifications && certifications.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="credentials-title"><Container><div className="terminal-section__heading"><h2 id="credentials-title">Credentials on file</h2><Link href="/certifications" className="terminal-text-link">Open archive →</Link></div><div className="grid gap-6 md:grid-cols-3">{certifications.map((cert) => <CertificationCard key={cert.id} title={cert.title} issuer={cert.issuer} category={cert.category} issueDate={cert.issue_date} credentialUrl={cert.verification_url} certificateFilePath={cert.public_path} fileType={cert.file_type} />)}</div></Container></section>}
-
-    <section className="terminal-cta" aria-labelledby="contact-title"><Container><div className="terminal-cta__inner"><div><p className="terminal-kicker">NEXT FLIGHT / OPEN</p><h2 id="contact-title">Have a signal worth sending?</h2></div><GradientButton href="/contact" variant="purple" size="lg" className="rounded-full px-8">Get in touch <span aria-hidden="true">↗</span></GradientButton></div></Container></section>
+ 
+    <ContactCTASection />
   </PageLayout>;
 }
