@@ -86,7 +86,7 @@ const Skiper31 = ({ skills = [] }: Skiper31Props) => {
     <section
       ref={targetRef}
       aria-labelledby="skills-title"
-      className="relative z-10 -mt-[40vh] box-border flex h-[210vh] w-screen items-center justify-center gap-[2vw] overflow-hidden bg-[#090909] p-[2vw] text-[#f7f9fa]"
+      className="relative z-10 -mt-[40vh] box-border flex h-[150vh] w-screen items-center justify-center gap-[2vw] overflow-hidden bg-[#090909] p-[2vw] text-[#f7f9fa]"
     >
       <div
         id="skills-title"

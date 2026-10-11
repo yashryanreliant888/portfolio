@@ -1,7 +1,5 @@
 import { PageLayout } from '@/components/PageLayout';
 import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
-import { ContactForm } from './ContactForm';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
@@ -113,12 +111,12 @@ export default async function ContactPage() {
             </div>
           )}
 
-          {/* Contact Form */}
-          <div>
-            <SectionHeading variant="stamp" className="mb-8 text-center">
-              S E N D   A   M E S S A G E
-            </SectionHeading>
-            <ContactForm />
+          <div className="card border border-ash/20 p-8 text-center">
+            <h2 className="heading-sm mb-4 text-soft-white">Ready to start a conversation?</h2>
+            <p className="body text-graphite">
+              Use the <span className="text-signal-violet">LET&apos;S TALK</span> button in the navigation
+              to open the contact form.
+            </p>
           </div>
         </Container>
       </section>

@@ -1,67 +1,49 @@
-import { Calendar, Image as ImageIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Container } from '@/components/Container';
 import { PageLayout } from '@/components/PageLayout';
+import { GalleryGrid, DbGalleryItem } from '@/components/GalleryGrid';
 import { createClient } from '@/lib/supabase/server';
-import type { Database } from '@/lib/database.types';
-
-type Gallery = Database['public']['Tables']['gallery']['Row'];
 
 export const metadata: Metadata = {
   title: 'Gallery | Yash Ryan Reliant',
-  description: 'A visual archive of places, projects, and moments from Yash Ryan Reliant.',
+  description: 'Visual archive and Instagram-style field dispatches from Yash Ryan Reliant.',
 };
 
-function getDescription(value: unknown) {
-  if (typeof value === 'string') return value;
-  if (value && typeof value === 'object' && 'description' in value && typeof value.description === 'string') return value.description;
-  return '';
-}
+const FALLBACK_ITEMS: DbGalleryItem[] = [
+  {
+    id: 'fallback-1',
+    title: 'Visual Field Note',
+    description: 'A captured moment in time from the digital marketing journey in Kerala.',
+    image_path: '/Gallery/gallery1.jpg',
+    date: '2024-01-15',
+    display_order: 1,
+    is_published: true,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+];
 
 export default async function GalleryPage() {
   const supabase = await createClient();
-  const { data } = await supabase.from('gallery').select('*').eq('is_published', true).order('display_order', { ascending: true });
-  const galleryItems = (data || []) as Gallery[];
+  const [{ data: profile }, { data: dbGallery }] = await Promise.all([
+    supabase.from('profiles').select('*').single(),
+    supabase
+      .from('gallery')
+      .select('*')
+      .eq('is_published', true)
+      .order('display_order', { ascending: true }),
+  ]);
+
+  const galleryItems = (dbGallery && dbGallery.length > 0 ? dbGallery : FALLBACK_ITEMS) as DbGalleryItem[];
 
   return (
     <PageLayout>
-      <section className="py-section">
+      <section className="pt-8 sm:pt-12 pb-16 sm:pb-24">
         <Container>
-          <p className="terminal-kicker">Visual archive</p>
-          <h1 className="display mt-5 text-almost-white">Gallery</h1>
-          <p className="subheading mt-6 max-w-2xl text-steel">A collection of places, projects, and visual signals worth keeping.</p>
-        </Container>
-      </section>
-
-      <section className="border-t border-white/10 py-section">
-        <Container>
-          {galleryItems.length > 0 ? (
-            <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-              {galleryItems.map((item) => {
-                const description = getDescription(item.description);
-                return (
-                  <article key={item.id} className="group">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-cards border border-white/15 bg-iron">
-                      {item.image_path ? (
-                        <img src={item.image_path} alt={item.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
-                      ) : (
-                        <div className="grid h-full place-items-center"><ImageIcon size={42} className="text-ash" /></div>
-                      )}
-                    </div>
-                    <div className="mt-5 flex items-start justify-between gap-4">
-                      <div>
-                        <h2 className="text-xl font-medium tracking-[-0.03em] text-almost-white">{item.title}</h2>
-                        {description && <p className="mt-2 text-sm leading-6 text-steel">{description}</p>}
-                      </div>
-                      {item.date && <time dateTime={item.date} className="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-ash"><Calendar size={12} />{new Date(item.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</time>}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="admin-empty">The gallery is quiet for now. Check back soon.</div>
-          )}
+          <div className="mx-auto max-w-4xl px-2 sm:px-6 mb-8 sm:mb-12">
+            <h1 className="display text-almost-white tracking-[-0.04em]">Gallery</h1>
+          </div>
+          <GalleryGrid items={galleryItems} profile={profile} />
         </Container>
       </section>
     </PageLayout>

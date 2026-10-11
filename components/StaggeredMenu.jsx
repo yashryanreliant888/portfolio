@@ -335,6 +335,21 @@ export const StaggeredMenu = ({
   }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
 
   React.useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open, closeMenu]);
+
+  React.useEffect(() => {
     if (!closeOnClickAway || !open) return;
 
     const handleClickOutside = event => {
@@ -389,12 +404,13 @@ export const StaggeredMenu = ({
           {extraContent}
           <button
             ref={toggleBtnRef}
-            className="sm-toggle"
+            className={`sm-toggle ${open ? 'sm-toggle--open' : ''}`}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             aria-controls="staggered-menu-panel"
             onClick={toggleMenu}
             type="button"
+            data-open={open || undefined}
           >
             <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
               <span ref={textInnerRef} className="sm-toggle-textInner">
@@ -419,7 +435,19 @@ export const StaggeredMenu = ({
             {items && items.length ? (
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={it.label + idx}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                  <a
+                    className="sm-panel-item"
+                    href={it.link}
+                    aria-label={it.ariaLabel}
+                    data-index={idx + 1}
+                    onClick={event => {
+                      if (it.onClick) {
+                        event.preventDefault();
+                        it.onClick(event);
+                      }
+                      closeMenu();
+                    }}
+                  >
                     <span className="sm-panel-itemLabel">{it.label}</span>
                   </a>
                 </li>

@@ -13,6 +13,7 @@ import heroBackground from '@/hero_bg.png';
 import { Skiper28 } from '@/components/ui/skiper-ui/skiper28';
 import { Skiper19 } from '@/components/ui/skiper-ui/skiper19';
 import { Skiper31 } from '@/components/ui/skiper-ui/skiper31';
+import { Skiper30 } from '@/components/v1/skiper30';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -93,14 +94,7 @@ export default async function HomePage() {
 
     <Skiper31 skills={(skills || []).map((skill) => ({ name: skill.name, logoPath: skill.logo_path, icon: skill.icon }))} />
 
-    <section className="terminal-section terminal-comparison" aria-labelledby="comparison-title">
-      <Container>
-        <div className="terminal-section__heading"><h2 id="comparison-title">How the signal moves</h2><p>Strategy is only useful when it lands in the real world.</p></div>
-        <div className="comparison-rail">
-          {['Find the opening', 'Build the system', 'Measure the lift'].map((title, index) => <article className={`comparison-ticket comparison-ticket--${index + 1}`} key={title}><span className="comparison-ticket__eyebrow">0{index + 1} / FIELD NOTE</span><h3>{title}</h3><p>{[skills?.[0]?.name || 'SEO foundations', skills?.[1]?.name || 'Campaign architecture', skills?.[2]?.name || 'Marketing analytics'][index]}</p><Link href="/projects">Explore <span aria-hidden="true">→</span></Link></article>)}
-        </div>
-      </Container>
-    </section>
+    <Skiper30 />
 
     {certifications && certifications.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="credentials-title"><Container><div className="terminal-section__heading"><h2 id="credentials-title">Credentials on file</h2><Link href="/certifications" className="terminal-text-link">Open archive →</Link></div><div className="grid gap-6 md:grid-cols-3">{certifications.map((cert) => <CertificationCard key={cert.id} title={cert.title} issuer={cert.issuer} category={cert.category} issueDate={cert.issue_date} credentialUrl={cert.verification_url} certificateFilePath={cert.public_path} fileType={cert.file_type} />)}</div></Container></section>}
 

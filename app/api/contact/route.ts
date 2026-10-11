@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 // Simple rate limiting in-memory store (use Redis in production)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
@@ -21,6 +22,16 @@ function checkRateLimit(ip: string): boolean {
 
   record.count++;
   return true;
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>'"]/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;',
+  })[character] || character);
 }
 
 export async function POST(request: NextRequest) {
@@ -115,6 +126,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Failed to save message. Please try again.' },
         { status: 500 }
+      );
+    }
+
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const recipient = process.env.CONTACT_TO_EMAIL || 'yashryanreliant@gmail.com';
+    const sender = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
+    if (!resendApiKey) {
+      console.error('Missing RESEND_API_KEY');
+      return NextResponse.json(
+        { error: 'Message saved, but email delivery is not configured.' },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(resendApiKey);
+    const { error: emailError } = await resend.emails.send({
+      from: sender,
+      to: recipient,
+      replyTo: email.trim().toLowerCase(),
+      subject: subject?.trim() || `New portfolio enquiry from ${name.trim()}`,
+      html: `
+        <h2>New portfolio enquiry</h2>
+        <p><strong>Name:</strong> ${escapeHtml(name.trim())}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email.trim().toLowerCase())}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(subject?.trim() || 'Not provided')}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message.trim()).replace(/\n/g, '<br />')}</p>
+      `,
+    });
+
+    if (emailError) {
+      console.error('Resend error:', emailError);
+      return NextResponse.json(
+        { error: 'Message saved, but email delivery failed. Please try again.' },
+        { status: 502 }
       );
     }
 
