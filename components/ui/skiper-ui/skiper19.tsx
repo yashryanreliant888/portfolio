@@ -121,28 +121,28 @@ const Skiper19 = () => {
       <div className="relative w-full translate-y-[200vh] border-y border-white/10 bg-[#090909] text-almost-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_280px_at_50%_0%,rgba(175,80,255,0.09),transparent_70%)] pointer-events-none" />
 
-        <div className="relative mx-auto max-w-page px-6 lg:px-12 py-20 lg:py-28">
+        <div className="relative mx-auto max-w-page px-6 lg:px-12 pt-8 lg:pt-10 pb-12 lg:pb-16">
           {/* Masthead */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-white/10 pb-12">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-6 sm:pb-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-whyte font-normal tracking-[-0.04em] text-almost-white leading-[1.04]">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-whyte font-normal tracking-[-0.04em] text-almost-white leading-[1.04]">
                 Work in <span className="font-grandslang italic font-normal text-lavender-mist">motion.</span>
               </h2>
-              <p className="mt-4 text-base sm:text-lg text-steel font-whyte font-normal leading-relaxed max-w-[58ch]">
+              <p className="mt-3 text-sm sm:text-base text-steel font-whyte font-normal leading-relaxed max-w-[58ch]">
                 A moving record of the teams, systems, and campaigns shaping the work across search architecture, performance marketing, and analytics.
               </p>
             </div>
 
             {/* Tactical Field Notes Status Block */}
-            <div className="w-full lg:w-auto rounded-cards border border-white/10 bg-white/[0.02] p-5 sm:p-6 text-xs font-whyte-mono text-steel">
-              <div className="flex items-center justify-between gap-6 pb-3 border-b border-white/10 text-soft-white">
+            <div className="w-full lg:w-auto rounded-cards border border-white/10 bg-white/[0.02] p-4 sm:p-5 text-xs font-whyte-mono text-steel">
+              <div className="flex items-center justify-between gap-6 pb-2.5 border-b border-white/10 text-soft-white">
                 <span className="tracking-[0.12em] uppercase">FIELD NOTES // 2026</span>
                 <span className="inline-flex items-center gap-1.5 text-lavender-mist">
                   <span className="w-1.5 h-1.5 rounded-full bg-signal-violet animate-pulse" />
                   KERALA & REMOTE
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-6 pt-3">
+              <div className="grid grid-cols-2 gap-6 pt-2.5">
                 <div>
                   <span className="text-[10px] tracking-wider uppercase text-ash block">SPECIALIZATION</span>
                   <span className="text-almost-white text-xs mt-0.5 block">SEO · PAID · ANALYTICS</span>
@@ -156,7 +156,7 @@ const Skiper19 = () => {
           </div>
 
           {/* Dossiers Grid */}
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="mt-6 sm:mt-7 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {displayExperiences.map((exp, index) => {
               const org = exp.organization === "Your Company Name" ? "Team YNES" : exp.organization;
               const responsibilities = exp.responsibilities && exp.responsibilities.length > 0
@@ -179,7 +179,7 @@ const Skiper19 = () => {
               return (
                 <article
                   key={exp.id}
-                  className="group relative rounded-cards border border-white/10 bg-[#0e0e12]/80 p-7 sm:p-9 transition-all duration-300 hover:border-white/20 hover:bg-[#121217]"
+                  className="group relative rounded-cards border border-white/10 bg-[#0e0e12]/80 p-5 sm:p-7 transition-all duration-300 hover:border-white/20 hover:bg-[#121217]"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <span className="rounded-pills px-3 py-1 text-[11px] font-whyte-mono uppercase tracking-[0.08em] bg-white/[0.04] text-soft-white border border-white/10">
@@ -190,24 +190,24 @@ const Skiper19 = () => {
                     </span>
                   </div>
 
-                  <h3 className="mt-6 text-2xl sm:text-3xl font-whyte font-medium tracking-[-0.03em] text-almost-white">
+                  <h3 className="mt-4 text-xl sm:text-2xl font-whyte font-medium tracking-[-0.03em] text-almost-white">
                     {org}
                   </h3>
-                  <p className="mt-1 text-sm sm:text-base font-whyte font-normal text-lavender-mist">
+                  <p className="mt-0.5 text-xs sm:text-sm font-whyte font-normal text-lavender-mist">
                     {exp.role}
                   </p>
 
                   {exp.description && (
-                    <p className="mt-4 text-sm font-whyte leading-relaxed text-steel">
+                    <p className="mt-2.5 text-xs sm:text-sm font-whyte leading-relaxed text-steel">
                       {exp.description}
                     </p>
                   )}
 
-                  <div className="mt-6 border-t border-white/10 pt-5">
-                    <span className="text-[10px] font-whyte-mono uppercase tracking-[0.14em] text-ash block mb-3">
+                  <div className="mt-4 border-t border-white/10 pt-3.5">
+                    <span className="text-[10px] font-whyte-mono uppercase tracking-[0.14em] text-ash block mb-2.5">
                       KEY DELIVERABLES
                     </span>
-                    <ul className="space-y-2 text-xs font-whyte text-soft-white/90">
+                    <ul className="space-y-1.5 text-xs font-whyte text-soft-white/90">
                       {responsibilities.map((item, rIdx) => (
                         <li key={rIdx} className="flex items-start gap-2">
                           <span className="text-signal-violet mt-0.5 select-none font-bold">›</span>
@@ -217,11 +217,11 @@ const Skiper19 = () => {
                     </ul>
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-2 pt-2">
+                  <div className="mt-4 flex flex-wrap gap-2 pt-1">
                     {tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-buttons px-2.5 py-1 text-[10px] font-whyte-mono text-ash bg-white/[0.02] border border-white/5"
+                        className="rounded-buttons px-2 py-0.5 text-[10px] font-whyte-mono text-ash bg-white/[0.02] border border-white/5"
                       >
                         {tag}
                       </span>
@@ -233,7 +233,7 @@ const Skiper19 = () => {
           </div>
 
           {/* Action Dock */}
-          <div className="mt-14 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs font-whyte-mono tracking-[0.1em] uppercase text-steel text-center sm:text-left">
               DETAILED CAMPAIGNS, TIMELINES & VERIFIED CREDENTIALS
             </p>

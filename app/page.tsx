@@ -14,6 +14,7 @@ import { Skiper28 } from '@/components/ui/skiper-ui/skiper28';
 import { Skiper19 } from '@/components/ui/skiper-ui/skiper19';
 import { Skiper31 } from '@/components/ui/skiper-ui/skiper31';
 import { Skiper30 } from '@/components/v1/skiper30';
+import { Skiper52 } from '@/components/ui/skiper-ui/skiper52';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -93,6 +94,23 @@ export default async function HomePage() {
     <Skiper19 />
 
     <Skiper31 skills={(skills || []).map((skill) => ({ name: skill.name, logoPath: skill.logo_path, icon: skill.icon }))} />
+
+    <section className="bg-transparent px-4 py-24 sm:px-6 lg:px-8" aria-labelledby="projects-title">
+      <Container>
+        <div className="mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <p className="terminal-kicker">SELECTED WORK / PROJECTS</p>
+            <h2 id="projects-title" className="mt-3 text-5xl font-light tracking-[-0.06em] text-almost-white sm:text-7xl">
+              Projects in motion
+            </h2>
+          </div>
+          <GradientButton href="/projects" variant="purple" size="md" className="rounded-full px-7">
+            View all projects <span aria-hidden="true">→</span>
+          </GradientButton>
+        </div>
+        <Skiper52 />
+      </Container>
+    </section>
 
     <Skiper30 />
 
