@@ -16,6 +16,7 @@ import { Skiper31 } from '@/components/ui/skiper-ui/skiper31';
 import { Skiper30 } from '@/components/v1/skiper30';
 import { Skiper52 } from '@/components/ui/skiper-ui/skiper52';
 import { ContactCTASection } from '@/components/ContactCTASection';
+import { HeroContactButton } from '@/components/HeroContactButton';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -51,13 +52,7 @@ export default async function HomePage() {
                   <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
                 </span>
               </GradientButton>
-              <Link
-                href="/contact"
-                className="terminal-text-link group inline-flex items-center gap-2 whitespace-nowrap shrink-0 py-2.5 transition-colors duration-200 hover:text-lavender-mist"
-              >
-                <span>Start a conversation</span>
-                <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-              </Link>
+              <HeroContactButton />
             </div>
           </div>
 

@@ -77,6 +77,11 @@ export function ExpandableScreen({
         document.body.style.overflow = "unset"
       }
     }
+    return () => {
+      if (lockScroll) {
+        document.body.style.overflow = "unset"
+      }
+    }
   }, [isExpanded, lockScroll])
 
   return (
@@ -166,7 +171,12 @@ export function ExpandableScreenContent({
   return createPortal((
     <AnimatePresence initial={false}>
       {isExpanded && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-2">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) collapse()
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-2 bg-black/60 backdrop-blur-sm"
+        >
           {/* Morphing background with shared layoutId */}
           <motion.div
             layoutId={layoutId}

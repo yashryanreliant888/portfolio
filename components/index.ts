@@ -15,3 +15,5 @@ export { PageLayout } from './PageLayout';
 export { Container } from './Container';
 export { GradientButton } from './kokonutui/gradient-button';
 export { GalleryGrid } from './GalleryGrid';
+export { HeroContactButton } from './HeroContactButton';
+export { ContactOverlay } from './ContactOverlay';
