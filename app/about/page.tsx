@@ -3,6 +3,7 @@ import { PageLayout } from '@/components/PageLayout';
 import { Container } from '@/components/Container';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Button } from '@/components/Button';
+import GradientButton from '@/components/kokonutui/gradient-button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -141,9 +142,9 @@ export default async function AboutPage() {
 
             {/* CTA */}
             <div className="text-center pt-8">
-              <Button as="link" href="/contact" variant="violet" size="lg">
-                Let's Connect
-              </Button>
+              <GradientButton href="/contact" variant="purple" size="lg" className="rounded-full px-8">
+                Let&apos;s Connect <span aria-hidden="true">↗</span>
+              </GradientButton>
             </div>
           </div>
         </Container>

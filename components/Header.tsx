@@ -1,95 +1,113 @@
 'use client';
 
-import Link from 'next/link';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+import { ExpandableScreen, ExpandableScreenContent, ExpandableScreenTrigger } from '@/components/ui/expandable-screen';
+import StaggeredMenu from '@/components/StaggeredMenu';
+
+const StaggeredMenuComponent = StaggeredMenu as any;
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Skills', href: '/skills' },
-  { name: 'Experience', href: '/experience' },
-  { name: 'Certifications', href: '/certifications' },
-  { name: 'Education', href: '/education' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Contact', href: '/contact' },
+  { label: 'Home', link: '/' },
+  { label: 'About', link: '/about' },
+  { label: 'Skills', link: '/skills' },
+  { label: 'Experience', link: '/experience' },
+  { label: 'Certifications', link: '/certifications' },
+  { label: 'Education', link: '/education' },
+  { label: 'Projects', link: '/projects' },
+  { label: 'Contact', link: '/contact' },
 ];
 
+function Logo() {
+  return (
+    <div className="terminal-brand flex items-center gap-3" aria-label="Yash Ryan Reliant home">
+      <span className="terminal-brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" role="presentation">
+          <path d="M7 7v18M7 7l9 9m0 0 9-9m-9 9v9" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" />
+          <path d="M21 16h4" stroke="var(--color-signal-violet)" strokeWidth="2" strokeLinecap="square" />
+          <circle cx="25" cy="16" r="1.6" fill="var(--color-signal-violet)" />
+        </svg>
+      </span>
+      <span className="terminal-brand__name">YASH<span>RYAN</span></span>
+    </div>
+  );
+}
+
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  return (
+    <StaggeredMenuComponent
+      isFixed
+      position="right"
+      items={navigation}
+      colors={['#15142b', '#090909']}
+      accentColor="#af50ff"
+      menuButtonColor="#f7f9fa"
+      openMenuButtonColor="#090909"
+      logoContent={<Logo />}
+      extraContent={(
+        <ExpandableScreen layoutId="header-contact" triggerRadius="999px" contentRadius="24px">
+          <ExpandableScreenTrigger className="terminal-nav-cta">
+            <span>LET&apos;S TALK ↗</span>
+          </ExpandableScreenTrigger>
+          <ExpandableScreenContent className="bg-[#f0f0f0] text-[#090909]" closeButtonClassName="text-[#090909] hover:bg-black/10">
+            <ContactOverlay />
+          </ExpandableScreenContent>
+        </ExpandableScreen>
+      )}
+    />
+  );
+}
+
+function ContactOverlay() {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+    try {
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to send message');
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      setStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to send message');
+    }
+  };
+
+  const update = (field: keyof typeof formData, value: string) => setFormData((current) => ({ ...current, [field]: value }));
 
   return (
-    <header className="nav-bar">
-      <nav className="max-w-page mx-auto px-8 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="terminal-brand" aria-label="Yash Ryan Reliant home">
-          <span className="terminal-brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" role="presentation">
-              <path d="M7 7v18M7 7l9 9m0 0 9-9m-9 9v9" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" />
-              <path d="M21 16h4" stroke="var(--color-signal-violet)" strokeWidth="2" strokeLinecap="square" />
-              <circle cx="25" cy="16" r="1.6" fill="var(--color-signal-violet)" />
-            </svg>
-          </span>
-          <span className="terminal-brand__name">YASH<span>RYAN</span></span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:items-center lg:gap-7">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="nav-label text-ash hover:text-almost-white transition-colors duration-200"
-            >
-              {item.name}
-            </Link>
-          ))}
-          <Link href="/contact" className="terminal-nav-cta">LET'S TALK ↗</Link>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          className="lg:hidden text-almost-white au-enter au-wipe"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-          >
-            {mobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            )}
-          </svg>
-        </button>
-      </nav>
-
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-ash/20">
-          <div className="px-8 py-6 space-y-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="block text-sm text-ash hover:text-almost-white transition-colors duration-200 uppercase tracking-wide"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+    <div className="grid min-h-full gap-16 px-8 py-20 sm:px-14 lg:grid-cols-[.8fr_1fr] lg:gap-24 lg:px-[13vw] lg:py-28">
+      <div className="flex flex-col justify-center">
+        <p className="mb-8 text-[10px] uppercase tracking-[0.2em] text-[#6b6b6b]">Open channel / 01</p>
+        <h2 className="max-w-xl text-5xl font-medium leading-[.92] tracking-[-0.06em] sm:text-7xl">Let&apos;s make something move.</h2>
+        <p className="mt-8 max-w-md text-base leading-relaxed text-[#474747]">Tell me what you&apos;re building, where it needs momentum, and what success should look like.</p>
+        <div className="mt-14 border-t border-black/15 pt-5 text-xs uppercase tracking-[0.12em] text-[#6b6b6b]">SEO · Paid media · Content · Analytics</div>
+      </div>
+      <div className="flex items-center">
+        {status === 'success' ? (
+          <div className="w-full border border-black/15 bg-white/40 p-8 sm:p-10">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-[#6b6b6b]">Transmission received</p>
+            <h3 className="mt-5 text-3xl font-medium tracking-[-0.04em]">Thanks — I&apos;ll be in touch.</h3>
+            <button type="button" onClick={() => setStatus('idle')} className="mt-8 text-sm underline underline-offset-4">Send another message</button>
           </div>
-        </div>
-      )}
-    </header>
+        ) : (
+          <form onSubmit={handleSubmit} className="w-full space-y-7">
+            <div className="grid gap-7 sm:grid-cols-2">
+              <label className="grid gap-2 text-[10px] uppercase tracking-[0.14em] text-[#474747]">Full name *<input required value={formData.name} onChange={(event) => update('name', event.target.value)} className="border-b border-black/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-[#090909] outline-none placeholder:text-[#828384] focus:border-[#090909]" placeholder="Your name" /></label>
+              <label className="grid gap-2 text-[10px] uppercase tracking-[0.14em] text-[#474747]">Email *<input required type="email" value={formData.email} onChange={(event) => update('email', event.target.value)} className="border-b border-black/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-[#090909] outline-none placeholder:text-[#828384] focus:border-[#090909]" placeholder="you@company.com" /></label>
+            </div>
+            <label className="grid gap-2 text-[10px] uppercase tracking-[0.14em] text-[#474747]">What are we working on?<input value={formData.subject} onChange={(event) => update('subject', event.target.value)} className="border-b border-black/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-[#090909] outline-none placeholder:text-[#828384] focus:border-[#090909]" placeholder="Campaign, SEO, content, or something new" /></label>
+            <label className="grid gap-2 text-[10px] uppercase tracking-[0.14em] text-[#474747]">The brief *<textarea required rows={5} value={formData.message} onChange={(event) => update('message', event.target.value)} className="resize-none border-b border-black/25 bg-transparent px-0 py-3 text-base normal-case tracking-normal text-[#090909] outline-none placeholder:text-[#828384] focus:border-[#090909]" placeholder="A few lines about the goal, timeline, and where you are now" /></label>
+            {status === 'error' && <p role="alert" className="text-sm text-red-700">{errorMessage}</p>}
+            <button type="submit" disabled={status === 'loading'} className="w-full rounded-full bg-[#090909] px-6 py-4 text-sm text-[#f7f9fa] transition-colors hover:bg-[#af50ff] hover:text-[#090909] disabled:opacity-50">{status === 'loading' ? 'Sending…' : 'Start a conversation ↗'}</button>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { PageLayout } from '@/components/PageLayout';
 import { Container } from '@/components/Container';
 import { SectionHeading } from '@/components/SectionHeading';
 import { Button } from '@/components/Button';
+import GradientButton from '@/components/kokonutui/gradient-button';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -272,9 +273,9 @@ export default async function ProjectDetailPage({ params }: Props) {
       <section className="py-section border-t border-ash/20">
         <Container size="narrow">
           <div className="text-center">
-            <Button as="link" href="/projects" variant="ghost">
+            <GradientButton href="/projects" variant="purple" size="md" className="rounded-full px-6">
               ← Back to All Projects
-            </Button>
+            </GradientButton>
           </div>
         </Container>
       </section>

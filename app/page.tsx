@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PageLayout } from '@/components/PageLayout';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
-import { ExperienceCard } from '@/components/ExperienceCard';
+import GradientButton from '@/components/kokonutui/gradient-button';
 import { CertificationCard } from '@/components/CertificationCard';
 import { EntranceAnimation } from '@/components/EntranceAnimation';
 import { SocialIcon } from '@/components/SocialIcon';
@@ -10,13 +10,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import mainPic from '@/main-pic.png';
 import heroBackground from '@/hero_bg.png';
+import { Skiper28 } from '@/components/ui/skiper-ui/skiper28';
+import { Skiper19 } from '@/components/ui/skiper-ui/skiper19';
+import { Skiper31 } from '@/components/ui/skiper-ui/skiper31';
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const [{ data: profile }, { data: skills }, { data: experience }, { data: certifications }] = await Promise.all([
+  const [{ data: profile }, { data: skills }, { data: certifications }] = await Promise.all([
     supabase.from('profiles').select('*').single(),
     supabase.from('skills').select('*').eq('is_active', true).order('sort_order').limit(6),
-    supabase.from('experience').select('*').eq('is_published', true).order('sort_order').limit(2),
     supabase.from('certifications').select('*').eq('is_published', true).order('sort_order').limit(3),
   ]);
 
@@ -34,7 +36,26 @@ export default async function HomePage() {
             <p className="terminal-kicker au-enter au-soft">YASH RYAN RELIANT / DIGITAL MARKETING</p>
             <h1 id="hero-title" className="au-headline"><span className="au-enter au-rise">Ideas that</span><em className="au-enter au-rise">move</em><strong className="au-enter au-rise">people.</strong></h1>
             <p className="terminal-hero__intro au-enter au-soft">{headline}. Search, story, and signal brought together into marketing that moves with intent.</p>
-            <div className="terminal-hero__actions au-enter au-soft"><Button as="link" href="/projects" variant="violet" size="lg">Inspect the work <span aria-hidden="true" className="button-arrow">↗</span></Button><Link href="/contact" className="terminal-text-link">Start a conversation <span aria-hidden="true" className="text-arrow">→</span></Link></div>
+            <div className="terminal-hero__actions au-enter au-soft">
+              <GradientButton
+                href="/projects"
+                variant="purple"
+                size="md"
+                className="rounded-full px-7 shadow-[0_0_24px_rgba(175,80,255,0.35)] shrink-0"
+              >
+                <span className="inline-flex items-center gap-2 whitespace-nowrap">
+                  <span>Inspect the work</span>
+                  <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                </span>
+              </GradientButton>
+              <Link
+                href="/contact"
+                className="terminal-text-link group inline-flex items-center gap-2 whitespace-nowrap shrink-0 py-2.5 transition-colors duration-200 hover:text-lavender-mist"
+              >
+                <span>Start a conversation</span>
+                <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
           </div>
 
           <div className="hero-stage" aria-label="Portrait of Yash Ryan Reliant">
@@ -66,6 +87,12 @@ export default async function HomePage() {
       <div className="terminal-coordinate" aria-hidden="true"><span>FIELD NOTES / PORTFOLIO 2026</span><span>09.9312° N &nbsp; 76.2673° E</span></div>
     </section>
 
+    <Skiper28 about="I'm a digital marketing professional based in Kerala, India. I combine SEO, paid media, content, and analytics to turn clear strategy into measurable growth." />
+
+    <Skiper19 />
+
+    <Skiper31 skills={(skills || []).map((skill) => ({ name: skill.name, logoPath: skill.logo_path, icon: skill.icon }))} />
+
     <section className="terminal-section terminal-comparison" aria-labelledby="comparison-title">
       <Container>
         <div className="terminal-section__heading"><h2 id="comparison-title">How the signal moves</h2><p>Strategy is only useful when it lands in the real world.</p></div>
@@ -75,10 +102,8 @@ export default async function HomePage() {
       </Container>
     </section>
 
-    {experience && experience.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="experience-title"><Container><div className="terminal-section__heading"><h2 id="experience-title">Recent departures</h2><Link href="/experience" className="terminal-text-link">View timeline →</Link></div><div className="space-y-6">{experience.map((exp) => <ExperienceCard key={exp.id} organization={exp.organization} role={exp.role} employmentType={exp.employment_type} durationLabel={exp.duration_label} startDate={exp.start_date} endDate={exp.end_date} description={exp.description} />)}</div></Container></section>}
-
     {certifications && certifications.length > 0 && <section className="terminal-section border-t border-white/10" aria-labelledby="credentials-title"><Container><div className="terminal-section__heading"><h2 id="credentials-title">Credentials on file</h2><Link href="/certifications" className="terminal-text-link">Open archive →</Link></div><div className="grid gap-6 md:grid-cols-3">{certifications.map((cert) => <CertificationCard key={cert.id} title={cert.title} issuer={cert.issuer} category={cert.category} issueDate={cert.issue_date} credentialUrl={cert.verification_url} certificateFilePath={cert.public_path} fileType={cert.file_type} />)}</div></Container></section>}
 
-    <section className="terminal-cta" aria-labelledby="contact-title"><Container><div className="terminal-cta__inner"><div><p className="terminal-kicker">NEXT FLIGHT / OPEN</p><h2 id="contact-title">Have a signal worth sending?</h2></div><Button as="link" href="/contact" variant="filled" size="lg">Get in touch <span aria-hidden="true">↗</span></Button></div></Container></section>
+    <section className="terminal-cta" aria-labelledby="contact-title"><Container><div className="terminal-cta__inner"><div><p className="terminal-kicker">NEXT FLIGHT / OPEN</p><h2 id="contact-title">Have a signal worth sending?</h2></div><GradientButton href="/contact" variant="purple" size="lg" className="rounded-full px-8">Get in touch <span aria-hidden="true">↗</span></GradientButton></div></Container></section>
   </PageLayout>;
 }

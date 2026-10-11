@@ -4,6 +4,7 @@ import { Container } from '@/components/Container';
 import { SectionHeading } from '@/components/SectionHeading';
 import { ExperienceCard } from '@/components/ExperienceCard';
 import { EmptyState } from '@/components/EmptyState';
+import GradientButton from '@/components/kokonutui/gradient-button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -76,12 +77,14 @@ export default async function ExperiencePage() {
               combines analytical thinking with creative execution, let's talk.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a
+              <GradientButton
                 href="/contact"
-                className="btn-filled inline-flex items-center gap-2"
+                variant="purple"
+                size="lg"
+                className="rounded-full px-8"
               >
-                Get in Touch
-              </a>
+                Get in Touch <span aria-hidden="true">↗</span>
+              </GradientButton>
             </div>
           </div>
         </Container>
