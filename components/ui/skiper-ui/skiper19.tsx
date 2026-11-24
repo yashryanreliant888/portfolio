@@ -56,6 +56,7 @@ const Skiper19 = () => {
   const { scrollYProgress } = useScroll({
     target: ref,
   });
+  const panelOffset = useTransform(scrollYProgress, [0.08, 0.42], ["180vh", "0vh"]);
   const [experiences, setExperiences] = useState<RecentExperience[]>([]);
 
   useEffect(() => {
@@ -87,7 +88,7 @@ const Skiper19 = () => {
   return (
     <section
       ref={ref}
-      className="relative z-20 mx-auto flex h-[350vh] w-screen flex-col items-center overflow-hidden bg-[#090909] px-4 text-[#f7f9fa]"
+      className="relative z-20 mx-auto flex h-[350vh] w-screen flex-col items-center bg-transparent px-4 text-[#f7f9fa]"
     >
       <div className="mt-32 relative flex w-fit flex-col items-center justify-center gap-6 text-center px-4">
         <h1 className="font-whyte relative z-10 text-6xl sm:text-7xl lg:text-9xl font-normal tracking-[-0.04em] text-almost-white leading-[0.92]">
@@ -118,9 +119,10 @@ const Skiper19 = () => {
         />
       </div>
 
-      <div className="relative w-full translate-y-[200vh] border-y border-white/10 bg-[#090909] text-almost-white">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_280px_at_50%_0%,rgba(175,80,255,0.09),transparent_70%)] pointer-events-none" />
-
+      <motion.div
+        style={{ y: panelOffset }}
+        className="relative w-full border-y border-white/10 bg-transparent text-almost-white"
+      >
         <div className="relative mx-auto max-w-page px-6 lg:px-12 pt-8 lg:pt-10 pb-12 lg:pb-16">
           {/* Masthead */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-6 sm:pb-8">
@@ -156,7 +158,7 @@ const Skiper19 = () => {
           </div>
 
           {/* Dossiers Grid */}
-          <div className="mt-6 sm:mt-7 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="mt-6 sm:mt-7 grid grid-cols-1 md:grid-cols-2 items-stretch gap-5 sm:gap-6">
             {displayExperiences.map((exp, index) => {
               const org = exp.organization === "Your Company Name" ? "Team YNES" : exp.organization;
               const responsibilities = exp.responsibilities && exp.responsibilities.length > 0
@@ -179,7 +181,7 @@ const Skiper19 = () => {
               return (
                 <article
                   key={exp.id}
-                  className="group relative rounded-cards border border-white/10 bg-[#0e0e12]/80 p-5 sm:p-7 transition-all duration-300 hover:border-white/20 hover:bg-[#121217]"
+                  className="group relative flex h-full flex-col rounded-cards border border-white/10 bg-[#0e0e12]/80 p-5 sm:p-7 transition-all duration-300 hover:border-white/20 hover:bg-[#121217]"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <span className="rounded-pills px-3 py-1 text-[11px] font-whyte-mono uppercase tracking-[0.08em] bg-white/[0.04] text-soft-white border border-white/10">
@@ -203,7 +205,7 @@ const Skiper19 = () => {
                     </p>
                   )}
 
-                  <div className="mt-4 border-t border-white/10 pt-3.5">
+                  <div className="mt-4 flex-1 border-t border-white/10 pt-3.5">
                     <span className="text-[10px] font-whyte-mono uppercase tracking-[0.14em] text-ash block mb-2.5">
                       KEY DELIVERABLES
                     </span>
@@ -250,7 +252,7 @@ const Skiper19 = () => {
             </GradientButton>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
