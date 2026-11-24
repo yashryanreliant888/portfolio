@@ -3,7 +3,7 @@
 import { FormEvent, useState, useTransition } from 'react';
 import { SocialIcon, type SocialPlatform } from '@/components/SocialIcon';
 
-export type Field = { name: string; label: string; type?: 'text' | 'textarea' | 'date' | 'number' | 'url' | 'email' | 'checkbox' | 'json' | 'file'; required?: boolean; placeholder?: string; accept?: string; social?: SocialPlatform };
+export type Field = { name: string; label: string; type?: 'text' | 'textarea' | 'date' | 'number' | 'url' | 'email' | 'checkbox' | 'json' | 'file' | 'select'; required?: boolean; placeholder?: string; accept?: string; options?: { value: string; label: string }[]; social?: SocialPlatform };
 
 function displayValue(value: unknown) {
   if (Array.isArray(value)) return value.join(', ');
@@ -11,7 +11,7 @@ function displayValue(value: unknown) {
   return value == null ? '' : String(value);
 }
 
-export function RecordForm({ fields, record, action, submitLabel = 'Save changes' }: { fields: Field[]; record?: Record<string, unknown>; action: (formData: FormData) => Promise<void>; submitLabel?: string }) {
+export function RecordForm({ fields, record, action, submitLabel = 'Save changes' }: { fields: Field[]; record?: Record<string, unknown>; action: (formData: FormData) => Promise<{ error?: string; success?: boolean } | void>; submitLabel?: string }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState('');
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -19,7 +19,11 @@ export function RecordForm({ fields, record, action, submitLabel = 'Save changes
     setMessage('');
     const formData = new FormData(event.currentTarget);
     startTransition(async () => {
-      try { await action(formData); setMessage('Saved.'); } catch (error) { setMessage(error instanceof Error ? error.message : 'Unable to save record.'); }
+      try {
+        const result = await action(formData);
+        if (result && 'error' in result && result.error) setMessage(result.error);
+        else setMessage('Saved.');
+      } catch (error) { setMessage(error instanceof Error ? error.message : 'Unable to save record.'); }
     });
   };
   return <form onSubmit={onSubmit} className="space-y-5" aria-busy={isPending}>
@@ -27,7 +31,7 @@ export function RecordForm({ fields, record, action, submitLabel = 'Save changes
       {fields.map((field) => {
         const value = displayValue(record?.[field.name]);
         if (field.type === 'checkbox') return <label key={field.name} className="flex items-center gap-3 rounded-buttons border border-ash/20 bg-near-black px-4 py-3 text-sm text-soft-white"><input name={field.name} type="checkbox" defaultChecked={Boolean(record?.[field.name])} className="h-4 w-4 accent-signal-violet" />{field.label}</label>;
-        return <label key={field.name} className={field.type === 'textarea' || field.type === 'json' || field.type === 'file' ? 'md:col-span-2 block' : 'block'}><span className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-steel">{field.social && <SocialIcon platform={field.social} className="h-4 w-4 text-lavender-mist" />}{field.label}</span>{field.type === 'textarea' || field.type === 'json' ? <textarea name={field.name} required={field.required} defaultValue={value} placeholder={field.placeholder} rows={field.type === 'json' ? 3 : 5} className="admin-input" /> : field.type === 'file' ? <input name={field.name} type="file" accept={field.accept} className="admin-input file:mr-3 file:rounded-buttons file:border-0 file:bg-lavender-mist file:px-3 file:py-1.5 file:text-sm file:text-near-black" /> : <input name={field.name} type={field.type || 'text'} required={field.required} defaultValue={value} placeholder={field.placeholder} className="admin-input" />}</label>;
+        return <label key={field.name} className={field.type === 'textarea' || field.type === 'json' || field.type === 'file' || field.type === 'select' ? 'md:col-span-2 block' : 'block'}><span className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-steel">{field.social && <SocialIcon platform={field.social} className="h-4 w-4 text-lavender-mist" />}{field.label}</span>{field.type === 'textarea' || field.type === 'json' ? <textarea name={field.name} required={field.required} defaultValue={value} placeholder={field.placeholder} rows={field.type === 'json' ? 3 : 5} className="admin-input" /> : field.type === 'file' ? <input name={field.name} type="file" accept={field.accept} className="admin-input file:mr-3 file:rounded-buttons file:border-0 file:bg-lavender-mist file:px-3 file:py-1.5 file:text-sm file:text-near-black" /> : field.type === 'select' ? <select name={field.name} required={field.required} defaultValue={value || field.options?.[0]?.value} className="admin-input"><option value="">Select file type</option>{field.options?.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select> : <input name={field.name} type={field.type || 'text'} required={field.required} defaultValue={value} placeholder={field.placeholder} className="admin-input" />}</label>;
       })}
     </div>
     <div className="flex items-center gap-4"><button type="submit" disabled={isPending} className="admin-primary">{isPending ? 'Saving…' : submitLabel}</button>{message && <p role="status" className={message === 'Saved.' ? 'text-sm text-lavender-mist' : 'text-sm text-red-300'}>{message}</p>}</div>

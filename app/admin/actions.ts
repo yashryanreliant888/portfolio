@@ -11,19 +11,48 @@ function clean(value: FormDataEntryValue | null) {
   return typeof value === 'string' ? value.trim() || null : null;
 }
 
+function normalizeCertificateFileType(value: FormDataEntryValue) {
+  if (typeof value !== 'string') return null;
+  const normalized = value.trim().toLowerCase();
+  return ['pdf', 'png', 'jpeg', 'jpg', 'webp'].includes(normalized)
+    ? normalized
+    : normalized === 'application/pdf'
+      ? 'pdf'
+      : normalized === 'image/png'
+        ? 'png'
+        : normalized === 'image/webp'
+          ? 'webp'
+          : normalized.startsWith('image/jpeg')
+            ? 'jpg'
+            : null;
+}
+
 export async function saveAdminRecord(table: AdminTable, id: string | null, formData: FormData) {
   const { supabase } = await requireAdminForAction();
   const payload: Record<string, unknown> = {};
+  let certificateUploaded = false;
   for (const [key, value] of formData.entries()) {
     if (key === 'id' || key === 'table' || key === 'redirectTo') continue;
     if (table === 'certifications' && key === 'certificate_upload' && value instanceof File && value.size > 0) {
+      if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(value.type)) {
+        return { error: 'Certificates must be PDF, JPEG, PNG, or WebP files.' };
+      }
+      if (value.size > 10 * 1024 * 1024) {
+        return { error: 'Certificates must be 10 MB or smaller.' };
+      }
       const safeName = value.name.replace(/[^a-zA-Z0-9._-]/g, '-');
       const path = `certifications/${crypto.randomUUID()}-${safeName}`;
       const { error: uploadError } = await supabase.storage.from('portfolio-certificates').upload(path, value, { contentType: value.type || undefined, upsert: false });
-      if (uploadError) throw new Error(`Certificate upload failed: ${uploadError.message}`);
+      if (uploadError) return { error: `Certificate upload failed: ${uploadError.message}` };
       const { data: publicUrl } = supabase.storage.from('portfolio-certificates').getPublicUrl(path);
+      const extension = safeName.split('.').pop()?.toLowerCase();
+      const detectedFileType = extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'pdf' || extension === 'webp'
+        ? extension
+        : value.type === 'application/pdf' ? 'pdf' : value.type === 'image/png' ? 'png' : 'jpg';
       payload.public_path = publicUrl.publicUrl;
-      payload.file_type = value.type || safeName.split('.').pop() || 'file';
+      payload.file_type = detectedFileType;
+      payload.source_file = value.name;
+      certificateUploaded = true;
       continue;
     }
     if (table === 'skills' && key === 'skill_logo_upload' && value instanceof File && value.size > 0) {
@@ -43,17 +72,30 @@ export async function saveAdminRecord(table: AdminTable, id: string | null, form
     }
     if (key === 'skill_logo_upload') continue;
     if (key === 'certificate_upload') continue;
+    if (table === 'certifications' && certificateUploaded && (key === 'public_path' || key === 'file_type' || key === 'source_file')) continue;
+    if (table === 'certifications' && key === 'file_type') {
+      payload.file_type = normalizeCertificateFileType(value);
+      continue;
+    }
     if (key === 'is_active' || key === 'is_published' || key === 'is_featured') payload[key] = value === 'on' || value === 'true';
     else if (key === 'sort_order' || key === 'display_order') payload[key] = Number(value) || 0;
     else if (key === 'channels' || key === 'tools' || key === 'deliverables' || key === 'results' || key === 'gallery' || key === 'responsibilities' || key === 'skills_covered') {
       try { payload[key] = JSON.parse(String(value)); } catch { payload[key] = String(value).split(',').map((item) => item.trim()).filter(Boolean); }
     } else payload[key] = clean(value);
   }
+  if (table === 'certifications' && !id) {
+    for (const requiredField of ['cert_id', 'title', 'issuer', 'recipient_name']) {
+      if (!payload[requiredField]) return { error: `The ${requiredField.replaceAll('_', ' ')} field is required.` };
+    }
+    if (!payload.public_path) return { error: 'Upload a certificate file or provide a public file path.' };
+    if (!payload.file_type) return { error: 'The file type field is required.' };
+  }
   const query = id ? supabase.from(table).update(payload).eq('id', id) : supabase.from(table).insert(payload);
   const { error } = await query;
-  if (error) throw new Error(error.message);
+  if (error) return { error: error.message };
   revalidatePath('/');
   revalidatePath(`/admin/${table}`);
+  return { success: true };
 }
 
 export async function deleteAdminRecord(table: AdminTable, id: string) {
