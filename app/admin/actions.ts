@@ -31,8 +31,10 @@ export async function saveAdminRecord(table: AdminTable, id: string | null, form
   const { supabase } = await requireAdminForAction();
   const payload: Record<string, unknown> = {};
   let certificateUploaded = false;
+  const coverImageUpload = table === 'projects' ? formData.get('cover_image_upload') : null;
   for (const [key, value] of formData.entries()) {
     if (key === 'id' || key === 'table' || key === 'redirectTo') continue;
+    if (key === 'cover_image_upload') continue;
     if (table === 'certifications' && key === 'certificate_upload' && value instanceof File && value.size > 0) {
       if (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(value.type)) {
         return { error: 'Certificates must be PDF, JPEG, PNG, or WebP files.' };
@@ -83,6 +85,22 @@ export async function saveAdminRecord(table: AdminTable, id: string | null, form
       try { payload[key] = JSON.parse(String(value)); } catch { payload[key] = String(value).split(',').map((item) => item.trim()).filter(Boolean); }
     } else payload[key] = clean(value);
   }
+  if (coverImageUpload instanceof File && coverImageUpload.size > 0) {
+    if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(coverImageUpload.type)) {
+      return { error: 'Cover images must be JPEG, PNG, WebP, or GIF files.' };
+    }
+    if (coverImageUpload.size > 5 * 1024 * 1024) {
+      return { error: 'Cover images must be 5 MB or smaller.' };
+    }
+    const extension = coverImageUpload.type === 'image/jpeg' ? 'jpg' : coverImageUpload.type.slice('image/'.length);
+    const path = `projects/${crypto.randomUUID()}.${extension}`;
+    const { error: uploadError } = await supabase.storage
+      .from('portfolio-media')
+      .upload(path, coverImageUpload, { contentType: coverImageUpload.type, upsert: false });
+    if (uploadError) return { error: `Cover image upload failed: ${uploadError.message}` };
+    const { data: publicUrl } = supabase.storage.from('portfolio-media').getPublicUrl(path);
+    payload.cover_image_path = publicUrl.publicUrl;
+  }
   if (table === 'certifications' && !id) {
     for (const requiredField of ['cert_id', 'title', 'issuer', 'recipient_name']) {
       if (!payload[requiredField]) return { error: `The ${requiredField.replaceAll('_', ' ')} field is required.` };
@@ -95,6 +113,10 @@ export async function saveAdminRecord(table: AdminTable, id: string | null, form
   if (error) return { error: error.message };
   revalidatePath('/');
   revalidatePath(`/admin/${table}`);
+  if (table === 'projects') {
+    revalidatePath('/projects');
+    revalidatePath('/projects/[slug]', 'page');
+  }
   return { success: true };
 }
 
